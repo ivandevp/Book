@@ -4,5 +4,4 @@
 ## Contents:
 
   - <a href="https://github.com/thom801/book/blob/master/chapter-1.md">Chapter One: Getting Started</a>
-
   - <a href="https://github.com/thom801/book/blob/master/chapter-2.md">Chapter Two: Layouts and Templates</a>
