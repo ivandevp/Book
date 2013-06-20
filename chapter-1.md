@@ -1,5 +1,4 @@
-# Node Twitter Clone
-##### A simple twitter clone using Node.js and the Express web framework.
+# Chapter One: Getting Started
 
 ## Dependencies
 
