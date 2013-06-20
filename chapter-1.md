@@ -1,6 +1,6 @@
 # Chapter One: Getting Started
 
-## Dependencies
+## What you'll need
 
 To begin development of the twitter clone, you will need the following:
 
