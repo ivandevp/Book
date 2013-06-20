@@ -1,4 +1,4 @@
-# Chapter 2 - Giving Our Site Some Structure
+# Chapter Two: Layouts and Templates
 
 When a user comes to our site for the first time, we want to greet them with a welcome page where they can sign up for our site. In the this section we are going to create a welcome route and serve up our welcome page via using a template. To do this we are going to install a templating engine called handlebars. Template engines allow us to easily render dynamic content in our HTML files. Handlebars is a popular JavaScript templating engine and is quite widely used for node development. Let's start by adding it to our package.json file.
 
