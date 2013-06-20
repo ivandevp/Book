@@ -186,7 +186,12 @@ $ npm install
 Now in app.js, let's import handlebars.
 
 ```javascript
+var express = require('express');
+var app = express();
+var routes = require('./routes');
 var hbs = require('express3-handlebars');
+
+...
 ```
 
 And we need to tell our app to set handlebars as our templating engine.
@@ -244,12 +249,27 @@ Now let's get to that template content. In our views directory let's create a fi
 <p>Glad you could make it!</p>
 ```
 
-Create a welcome page using bootstrap
+Let's restart our app and see what our welcome page looks like now. Not too exciting, but that is about to change. We're going to make our layout a bit nicer. 
 
+For simplicity, we're going to use Twitter's <a href="http://twitter.github.io/bootstrap/" target="_blank">Bootstrap</a> to develop the front end of our website. Bootstrap is a front-end framework that comes with some really nice features. It will help us create a nice clean site that looks good without much effort.
 
-For simplicity, we're going to use Twitter's <a href="http://twitter.github.io/bootstrap/" target="_blank">Bootstrap</a> to develop the front end of our website. Bootstrap is a front-end framework that comes with some really nice features. It will help us create an app that looks good without much effort.
+<a href="http://twitter.github.io/bootstrap/assets/bootstrap.zip">Download</a> the Bootstrap source files. Create a directory in the root of your project named public. Unzip the files and copy the bootstrap directory into /public. We also need to tell our app that we will be serving files up from our public directory.
 
-<a href="http://twitter.github.io/bootstrap/assets/bootstrap.zip">Download</a> the Bootstrap source files. Create a directory in the root of your project named public. Unzip the files and copy the bootstrap directory into /public.
+```javascript
+...
+
+app.engine('handlebars', hbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+app.use('/public', express.static('public'));
+
+...
+```
+
+Now let's modify our main.handlebars file.
+
+```html
+
+```
 
 
 
