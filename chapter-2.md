@@ -102,13 +102,65 @@ app.use('/public', express.static('public'));
 ...
 ```
 
-Now let's modify our main.handlebars file.
+Now let's modify our main.handlebars file to look like this.
 
 ```html
+<!doctype html>
+<html>
+<head>
+  <title>Twitter Clone</title>
+  <link href="/public/bootstrap/css/bootstrap.css" rel="stylesheet">
+  <link href="/public/stylesheets/layout.css" rel="stylesheet">
+</head>
+<body>
 
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="/">Null to Node</a>
+        <div class="nav-collapse collapse">
+          <ul class="nav pull-right">
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="#contact">Users</a></li>
+            <li><a href="/profile">Account</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    {{{ body }}}
+  </div>
+
+</body>
+</html>
 ```
 
+This is a very basic bootstrap layout taken from the <a href="http://twitter.github.io/bootstrap/examples/starter-template.html">Bootstrap Starter Template</>. We have a simple page layout containing a navbar with a home button and a navbar pulled to the right. At the end of our body element, we included a bootstrap.js and jQuery
 
+```html
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="/public/bootstrap/js/bootstrap.js" type="text/javascript"></script>
+```
 
+Also, in the head of the file, we have included a the bootstrap CSS and our own layout.css which we will create next.
+
+```html
+<link href="/public/bootstrap/css/bootstrap.css" rel="stylesheet">
+  <link href="/public/stylesheets/layout.css" rel="stylesheet">
+```
+
+Let's do that now. Inside your public directory, create a new directory and name it stylesheets. Within that directory create a file named layout.css. Within layout CSS add the following style definition.
+
+```css
+body {
+  padding-top: 60px;
+}
+```
+
+Pretty simple for now. We are just adding a bit of padding to the body of our layout so that our content doesn't show up underneath the navigation. Now, let's restart our server and take a look at our home page.
+
+<img src="http://cl.ly/image/020q3R2Z1m0y/shot1.png">
 
 
