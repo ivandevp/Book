@@ -137,22 +137,22 @@ var routes = require('./routes');
 Then, let's change our hello url mapping to one that will serve up a route in our routes file. Change this
 
 ```javascript
-app.get('/hello', function(req, res){
-  res.send('Hello World');
+app.get('/hello', function(request, response){
+  response.send('Hello World');
 });
 ```
 
 To this
 
 ```javascript
-app.get('/', routes.welcome);
+app.get('/', routes.home);
 ```
 
-So now we're telling our app that when someone visits our site at the root path, we want to serve up a route called welcome that exists within routes. So let's go into our routes.js file and create the welcome route.
+So now we're telling our app that when someone visits our site at the root path, we want to serve up a route called home that exists within routes. So let's go into our routes.js file and create the home route.
 
 ```javascript
-exports.welcome = function(req, res) {
-  res.send("Welcome");
+exports.home = function(request, response) {
+  response.send("Welcome");
 }
 ```
 
