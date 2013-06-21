@@ -121,7 +121,7 @@ Now let's modify our main.handlebars file to look like this.
         <div class="nav-collapse collapse">
           <ul class="nav pull-right">
             <li class="active"><a href="/">Home</a></li>
-            <li><a href="#contact">Users</a></li>
+            <li><a href="/users">Users</a></li>
             <li><a href="/profile">Account</a></li>
           </ul>
         </div>
@@ -133,6 +133,8 @@ Now let's modify our main.handlebars file to look like this.
     {{{ body }}}
   </div>
 
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <script src="/public/bootstrap/js/bootstrap.js" type="text/javascript"></script>
 </body>
 </html>
 ```
