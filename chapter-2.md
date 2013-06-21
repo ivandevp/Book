@@ -79,11 +79,19 @@ So let's create a really basic layout. Inside the layout directory let's create 
 
 Notice, that we have an odd line containing `{{{ body }}}`. This is the handlebars way of declaring that this is where we want the content of our template to be rendered. When we create a template, all of the content we put inside that template will be rendered where `{{{ body }}}` is in our layout. Very handy.
 
-Now let's get to that template content. In our views directory let's create a file called welcome.handlebars and add a simple bit of HTML content.
+Now let's get to that template content. In our views directory let's create a file called home.handlebars and add a simple bit of HTML content.
 
 ```html
-<h1>{{ title }}</h1>
-<p>Glad you could make it!</p>
+<h1>Home</h1>
+<p>Welcome, glad you could make it!</p>
+```
+
+Now in our home route, let's tell the app to serve up a template called 'home' when the user visits the root path of our site. We do this by calling response.render and passing in the name of our template which is 'home'.
+
+```javascript
+exports.home = function (request, response) {
+  response.render('home');
+}
 ```
 
 Let's restart our app and see what our welcome page looks like now. Not too exciting, but that is about to change. We're going to make our layout a bit nicer. 
