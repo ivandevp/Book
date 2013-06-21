@@ -12,7 +12,7 @@ And get an account with each of the following services:
   - <a href="http://github.com" target="_blank">Github</a>
   - <a href="http://heroku.com" target="_blank">Heroku</a>
 
-## Getting Started with NodeJS and NPM
+## NodeJS and NPM
 
 First thing to do is to make sure you have node installed. On the command line, run the following:
 
