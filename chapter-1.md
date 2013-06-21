@@ -2,7 +2,7 @@
 
 ## What you'll need
 
-To begin development of the twitter clone, you will need the following:
+To begin development of the sample app we're going to be working on, you'll need the following:
 
   - <a href="http://nodejs.org/" target="_blank">NodeJS</a>
   - <a href="http://git-scm.com/downloads" target="_blank">Git</a>
@@ -48,22 +48,22 @@ Change directories into the development directory.
 
 This is the directory you will be using for development of apps on your machine. Within this directory, let's create a specific directory for our application.
 
-`$ mkdir twitterclone`
+`$ mkdir nulltonode`
 
 then
 
-`$ cd twitterclone/`
+`$ cd nulltonode/`
 
 The `&&` operator will execute two commands in sequence. For example, the above two commands could be executed in one line as:
 
-`$ mkdir twitterclone && cd twitterclone`
+`$ mkdir nulltonode && cd nulltonode`
 
 Using our favorite text editor, within our app directory we're going to create a package.json file that looks like this:
 
 ```
 {
-  "name": "twitterclone",
-  "description": "Null to Node Twitter Clone App",
+  "name": "nulltonode",
+  "description": "Null to Node Sample App",
   "version": "0.0.1",
   "dependencies": {
     "express": "3.x"
@@ -88,7 +88,7 @@ This node_modules directory contains all of the node libraries that our app will
 
 ## Creating an Express Application
 
-Now that we have express installed as a dependency within our app, we are ready to start building our application. To do so, lets create another file called app.js at the root of our project. In this case the root of our project is `~/development/twitterclone/`.
+Now that we have express installed as a dependency within our app, we are ready to start building our application. To do so, lets create another file called app.js at the root of our project. In this case the root of our project is `~/development/nulltonode/`.
 
 Okay, Inside of app.js lets write a couple lines to import express and initialize an app so that we can use it to serve up some content.
 
