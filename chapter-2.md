@@ -139,7 +139,7 @@ Now let's modify our main.handlebars file to look like this.
 </html>
 ```
 
-This is a very basic bootstrap layout taken from the <a href="http://twitter.github.io/bootstrap/examples/starter-template.html">Bootstrap Starter Template</>. We have a simple page layout containing a navbar with a home button and a navbar pulled to the right. At the end of our body element, we included a bootstrap.js and jQuery
+This is a very basic bootstrap layout taken from the <a href="http://twitter.github.io/bootstrap/examples/starter-template.html">Bootstrap Starter Template</a>. We have a simple page layout containing a navbar with a home button and a navbar pulled to the right. At the end of our body element, we included a bootstrap.js and jQuery
 
 ```html
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
