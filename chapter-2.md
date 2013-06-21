@@ -53,7 +53,7 @@ var hbs = require('express3-handlebars');
 app.engine('handlebars', hbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
-app.get('/', routes.index);
+app.get('/', routes.home);
 
 app.listen(3000);
 console.log('App running on port 3000');
@@ -150,7 +150,7 @@ Also, in the head of the file, we have included a the bootstrap CSS and our own 
 
 ```html
 <link href="/public/bootstrap/css/bootstrap.css" rel="stylesheet">
-  <link href="/public/stylesheets/layout.css" rel="stylesheet">
+<link href="/public/stylesheets/layout.css" rel="stylesheet">
 ```
 
 Let's do that now. Inside your public directory, create a new directory and name it stylesheets. Within that directory create a file named layout.css. Within layout CSS add the following style definition.
