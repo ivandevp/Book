@@ -82,8 +82,8 @@ Notice, that we have an odd line containing `{{{ body }}}`. This is the handleba
 Now let's get to that template content. In our views directory let's create a file called home.handlebars and add a simple bit of HTML content.
 
 ```html
-<h1>Home</h1>
-<p>Welcome, glad you could make it!</p>
+<h1>Welcome</h1>
+<p>Glad you could make it!</p>
 ```
 
 Now in our home route, let's tell the app to serve up a template called 'home' when the user visits the root path of our site. We do this by calling response.render and passing in the name of our template which is 'home'.
@@ -94,7 +94,11 @@ exports.home = function (request, response) {
 }
 ```
 
-Let's restart our app and see what our welcome page looks like now. Not too exciting, but that is about to change. We're going to make our layout a bit nicer. 
+Let's restart our app and see what our welcome page looks like now.
+
+<img src="http://cl.ly/image/3K023i3z0a3R/Screen%20Shot%202013-06-21%20at%2011.07.20%20AM.png">
+
+Not too exciting, but that is about to change. We're going to make our layout a bit nicer. 
 
 For simplicity, we're going to use Twitter's <a href="http://twitter.github.io/bootstrap/" target="_blank">Bootstrap</a> to develop the front end of our website. Bootstrap is a front-end framework that comes with some really nice features. It will help us create a nice clean site that looks good without much effort.
 
@@ -175,7 +179,7 @@ body {
 
 Pretty simple for now. We're just adding a bit of padding to the body of our layout so that our content doesn't show up underneath the navigation. Now, let's restart our server and take a look at our home page.
 
-<img src="http://cl.ly/image/020q3R2Z1m0y/shot1.png">
+<img src="http://cl.ly/image/3w2U342M4546/Screen%20Shot%202013-06-21%20at%2011.10.40%20AM.png">
 
 Now we've handled the basics of creating a layout and template. In the next chapter we're going to build upon this concept by adding some structure and navigation to our site.
 
