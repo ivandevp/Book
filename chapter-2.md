@@ -4,8 +4,8 @@ When a user comes to our site for the first time, we want to greet them with a w
 
 ```javascript
 {
-  "name": "twitterclone",
-  "description": "Null to Node Twitter Clone App",
+  "name": "nulltonode",
+  "description": "Null to Node Sample App",
   "version": "0.0.1",
   "dependencies": {
     "express": "3.x",
@@ -69,7 +69,7 @@ So let's create a really basic layout. Inside the layout directory let's create 
 <!doctype html>
 <html>
 <head>
-  <title>Twitter Clone</title>
+  <title>Null to Node</title>
 </head>
 <body>
   {{{ body }}}
