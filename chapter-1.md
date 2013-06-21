@@ -124,7 +124,7 @@ Which means the app is running! Navigate to [http://localhost:3000/hello](http:/
 
 To stop our node server; while in the command line where your app is running, hit ctrl+c. This is the command to kill a node process. After doing so, you should see your regular bash command prompt again. Now, if you navigate back to where our hello world page was it's no longer be available. To restart the app, just run `$node app.js` again. This process as a whole is how you restart a node application. Every time you make changes to your node application, you need to restart the server in order for those changes to be reflected.
 
-### Separating our Routes
+## Including Routes
 
 In app.js, we mapped a route `/hello` to call an anonymous function and that anonymous function served up some simple content. This works fine, but as our app grows, we probably aren't going to want all of our logic to be within our main app.js file. To seperate it up a bit and keep things a little more tidy, we're going to move our route functions to a new file called routes.js. So let's create a routes.js file in the same directory as app.js.
 
