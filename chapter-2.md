@@ -157,10 +157,16 @@ Let's do that now. Inside your public directory, create a new directory and name
 body {
   padding-top: 60px;
 }
+
+.container {
+  max-width: 600px;
+}
 ```
 
-Pretty simple for now. We are just adding a bit of padding to the body of our layout so that our content doesn't show up underneath the navigation. Now, let's restart our server and take a look at our home page.
+Pretty simple for now. We're just adding a bit of padding to the body of our layout so that our content doesn't show up underneath the navigation. Now, let's restart our server and take a look at our home page.
 
 <img src="http://cl.ly/image/020q3R2Z1m0y/shot1.png">
+
+Now we've handled the basics of creating a layout and template. In the next chapter we're going to build upon this concept by adding some structure and navigation to our site.
 
 
