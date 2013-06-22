@@ -138,7 +138,7 @@ Now let's modify our main.handlebars file to look like this.
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="/profile">My Profile</a></li>
-                <li><a href="/settings/">Log out</a></li>
+                <li><a href="/logout">Log out</a></li>
               </ul>
             </li>
           </ul>
