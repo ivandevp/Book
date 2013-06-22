@@ -185,7 +185,7 @@ body {
 
 Pretty simple for now. We're just adding a bit of padding to the body of our layout so that our content doesn't show up underneath the navigation. Now, let's restart our server and take a look at our home page.
 
-<img src="http://cl.ly/image/3w2U342M4546/Screen%20Shot%202013-06-21%20at%2011.10.40%20AM.png">
+<img src="http://cl.ly/image/2g1r0U0e422P/Screen%20Shot%202013-06-22%20at%205.15.48%20PM.png">
 
 Now we've handled the basics of creating a layout and template. In the next chapter we're going to build upon this concept by adding some structure and navigation to our site.
 
