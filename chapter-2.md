@@ -132,9 +132,15 @@ Now let's modify our main.handlebars file to look like this.
         <a class="brand" href="/">Null to Node</a>
         <div class="nav-collapse collapse">
           <ul class="nav pull-right">
-            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="/users">Users</a></li>
-            <li><a href="/profile">Account</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/profile">My Profile</a></li>
+                <li><a href="/settings/">Log out</a></li>
+              </ul>
+            </li>
           </ul>
         </div>
       </div>
