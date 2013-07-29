@@ -181,4 +181,4 @@ Pretty simple for now. We're just adding a bit of padding to the body of our lay
 
 Now we've handled the basics of creating a layout and template. In the next chapter we're going to build upon this concept by adding some structure and navigation to our site.
 
-
+[Next Chapter >>](https://github.com/NullToNode/Book/blob/master/chapter-3.md)
