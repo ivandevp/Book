@@ -4,13 +4,8 @@
 
 To begin development of the sample app we're going to be working on, you'll need the following:
 
-  - <a href="http://nodejs.org/" target="_blank">NodeJS</a>
-  - <a href="http://git-scm.com/downloads" target="_blank">Git</a>
-  
-And get an account with each of the following services:
-
-  - <a href="http://github.com" target="_blank">Github</a>
-  - <a href="http://heroku.com" target="_blank">Heroku</a>
+  - <a href="http://nodejs.org/" target="_blank">NodeJS</a>: The server-side software for our project.
+  - <a href="http://www.mongodb.org/downloads" target="_blank">MongoDB</a>: The database we will be using to store data.
 
 ## NodeJS and NPM
 
