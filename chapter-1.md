@@ -151,6 +151,6 @@ exports.home = function(request, response) {
 }
 ```
 
-When we called `require('./routes')` We are importing the routes.js file, and that file will give us access to the exports object. That is why we create our welcome function as a property of exports using `exports.welcome`. That means that when we import this file we will have access to it as a property called welcome. Anything else defined in this file will be unavailable outside of the file unless it is attached to the exports object. 
+When we called `require('./routes')` we are importing the routes.js file, and that file will give us access to the exports object. That is why we create our welcome function as a property of exports using `exports.welcome`. That means that when we import this file we will have access to it as a property called welcome. Anything else defined in this file will be unavailable outside of the file unless it is attached to the exports object. 
 
 Now, let's restart the app and visit [http://localhost:3000/](http://localhost:3000/) and we should see our welcome page.
