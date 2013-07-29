@@ -155,4 +155,4 @@ When we called `require('./routes')` we are importing the routes.js file, and th
 
 Now, let's restart the app and visit [http://localhost:3000/](http://localhost:3000/) and we should see our welcome page.
 
-Nice work, you're totally ready for the [next chapter](github.com/NullToNode/Book/blob/master/chapter-2.md).
+Nice work, you're totally ready for the [next chapter](http://github.com/NullToNode/Book/blob/master/chapter-2.md).
