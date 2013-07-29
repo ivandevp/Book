@@ -95,8 +95,8 @@ var app = express();
 Next, lets write our first route. In the following lines of code `'/hello'` is the path of our route. When a user requests the page /hello from within our app, this route will determine what we send back to them. In this case we are simply sending the text "Hello World" using `res.send('Hello World')`.
 
 ```javascript
-app.get('/hello', function(req, res){
-  res.send('Hello World');
+app.get('/hello', function (request, response){
+  response.send('Hello World');
 });
 ```
 
@@ -132,7 +132,7 @@ var routes = require('./routes');
 Then, let's change our hello url mapping to one that will serve up a route in our routes file. Change this
 
 ```javascript
-app.get('/hello', function(request, response){
+app.get('/hello', function (request, response){
   response.send('Hello World');
 });
 ```
@@ -146,7 +146,7 @@ app.get('/', routes.home);
 So now we're telling our app that when someone visits our site at the root path, we want to serve up a route called home that exists within routes. So let's go into our routes.js file and create the home route.
 
 ```javascript
-exports.home = function(request, response) {
+exports.home = function (request, response) {
   response.send("Welcome");
 }
 ```
@@ -154,3 +154,5 @@ exports.home = function(request, response) {
 When we called `require('./routes')` we are importing the routes.js file, and that file will give us access to the exports object. That is why we create our welcome function as a property of exports using `exports.welcome`. That means that when we import this file we will have access to it as a property called welcome. Anything else defined in this file will be unavailable outside of the file unless it is attached to the exports object. 
 
 Now, let's restart the app and visit [http://localhost:3000/](http://localhost:3000/) and we should see our welcome page.
+
+### [github.com/NullToNode/Book/blob/master/chapter-2.md](Next Chapter)
