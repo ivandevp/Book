@@ -100,9 +100,9 @@ Let's restart our app and see what our welcome page looks like now.
 
 Not too exciting, but that's about to change. We're going to make our layout a bit nicer. 
 
-For simplicity, we're going to use Twitter's <a href="http://twitter.github.io/bootstrap/" target="_blank">Bootstrap</a> to develop the front end of our website. Bootstrap is a front-end framework that comes with some really nice features. It will help us create a nice clean site that looks good without much effort.
+For simplicity, we're going to use Twitter's <a href="http://getbootstrap.com/2.3.2/" target="_blank">Bootstrap</a> to develop the front end of our website. Bootstrap is a front-end framework that comes with some really nice features. It will help us create a nice clean site that looks good without much effort.
 
-<a href="http://twitter.github.io/bootstrap/assets/bootstrap.zip">Download</a> the Bootstrap source files. Create a directory in the root of your project named public. Unzip the files and copy the bootstrap directory into /public. We also need to tell our app that we will be serving files up from our public directory.
+<a href="http://getbootstrap.com/2.3.2/">Download</a> the Bootstrap source files. Create a directory in the root of your project named public. Unzip the files and copy the bootstrap directory into /public. We also need to tell our app that we will be serving files up from our public directory.
 
 ```javascript
 ...
@@ -132,15 +132,7 @@ Now let's modify our main.handlebars file to look like this.
         <a class="brand" href="/">Null to Node</a>
         <div class="nav-collapse collapse">
           <ul class="nav pull-right">
-            <li><a href="/">Home</a></li>
-            <li><a href="/users">Users</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="/profile">My Profile</a></li>
-                <li><a href="/logout">Log out</a></li>
-              </ul>
-            </li>
+            <li><a href="/login">Log In</a></li>
           </ul>
         </div>
       </div>
@@ -185,7 +177,7 @@ body {
 
 Pretty simple for now. We're just adding a bit of padding to the body of our layout so that our content doesn't show up underneath the navigation. Now, let's restart our server and take a look at our home page.
 
-<img src="http://cl.ly/image/3O283R2F1j0B/Screen%20Shot%202013-06-22%20at%205.16.35%20PM.png">
+<img src="http://cl.ly/image/1Y1L2P2y441t/Screen%20Shot%202013-07-29%20at%203.57.16%20PM.png">
 
 Now we've handled the basics of creating a layout and template. In the next chapter we're going to build upon this concept by adding some structure and navigation to our site.
 
