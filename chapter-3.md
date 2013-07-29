@@ -46,3 +46,4 @@ exports.logout = function (request, response) {
 Now, we need to create our profile template.
 
 
+[Next Chapter >>](https://github.com/NullToNode/Book/blob/master/chapter-4.md)
