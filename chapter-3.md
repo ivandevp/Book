@@ -1,49 +1,55 @@
-# Chapter Three: Site Structure and Routing
+# Chapter Three: User Authentication
 
-## Navigation with Routes
+In this section, we are going to create the logic to sign users up and log them in and out. There are a million ways to do this properly, however, in this book we will be taking a simple and not very secure approach for simplicity.
 
-In this section, we are going to create some routes in our routes.js file that will serve up different pages. Right now, if you click users or account on the site navigation, you'll see a page that reads "Cannot get /users" etc. What we want to do is make our navigation work, so that when you visit /users, you will see a users page and so on. Let's get started by telling our app that when the user requests the path /users to call a route called users in our routes file.
+## The Authentication routes
+
+First thing we need to do is create a couple routes, one we already have is home, this is where the user will sign up. The other two are login and logout.
 
 ```javascript
 app.get('/', routes.home);
-app.get('/users', routes.users);
-```
-
-Now let's create that new users route in the routes.js file.
-
-```javascript
-exports.users = function (request, response) {
-  response.render('users');
-}
-```
-
-Our route is calling response.render, which tells the app to render a template. In this case we are asking the app to render a template called 'users' which doesn't exist yet. Let's create that now. Within the views directory, create a new file called users.handlebars and type the following code into that file.
-
-```html
-<h1>Users</h1>
-<p>Here's where we'll list out our users.</p>
-```
-
-So now we have url and route defined for users. Next we need to do the same for our account links. If you click on the Account dropdown, you'll see we have two links, one to view your profile page which links to /profile, and a Log Out button that links to /logout. Let's start by defining these urls in our app.js file.
-
-```javascript
-app.get('/profile', routes.profile);
+app.get('/login', routes.login);
 app.get('/logout', routes.logout);
 ```
 
-And again, lets add the corresponding routes to our routes.js file. We'll just put a TODO comment in our logout route so that we remember to build that functionality later on.
+And again, lets add the corresponding routes to our routes.js file.
 
 ```javascript
-exports.profile = function (request, response) {
-  response.render('profile');
+exports.home = function (request, response) {
+  response.render('home');
+}
+
+exports.login = function (request, response) {
+  response.render('login');
 }
 
 exports.logout = function (request, response) {
-  // TODO: Build logout functionality
+  response.render('logout');
 }
 ```
 
-Now, we need to create our profile template.
+We don't have the templates that these routes are going to try to render so let's make `login.handlebars` and `logout.handlebars` in our views directory.
+
+## Sign Up Page
+
+Let's start off by getting our sign up page going. Here we want the user to be able to come to the home page and sign up for an account by filling out a form. Inside of home.handlebars lets create a form.
+
+```html
+<h1>Welcome</h1>
+<p>To get started, fill out the sign up form below.</p>
+<hr>
+<p class="lead">Sign Up</p>
+{{#if formError }}
+  <p class="alert alert-warning">{{{ formError }}}</p>
+{{/if}}
+<form action="" method="POST" enctype="multipart/form-data">
+  <input type="text" name="name" value="" placeholder="Name"><br/>
+  <input type="text" name="username" value="" placeholder="username"><br/>
+  <input type="password" name="password" value="" placeholder="password"><br/>
+  <p>Profile Image</p><input type="file" name="image"><hr>
+  <input class="btn btn-primary" type="submit" name="" value="Sign Up">
+</form>
+```
 
 
 [Next Chapter >>](https://github.com/NullToNode/Book/blob/master/chapter-4.md)
