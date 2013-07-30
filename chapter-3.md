@@ -39,7 +39,9 @@ For user authentication we are going to use the [basic-auth-mongoose](https://gi
 ...
 ```
 
-Also, since we're going to be updloading files, we need to tell our app where to put the files when they are uploaded. In app.js let's do that now.
+Now that we've changed our package.json file, we need to run `npm install`. Always remember to do this when package.json changes.
+
+Now, since we're going to be uploading files, we need to tell our app where to put the files when they are uploaded. In app.js:
 
 ```javascript
 ...
@@ -57,7 +59,7 @@ Also, we added in a few lines to enable the express cookieParser so that we can 
 
 ## The Authentication routes
 
-First thing we need to do is create a couple routes, one we already have is home, this is where the user will sign up. The other two are login and logout.
+First thing we need to do is create a couple routes, one we already have is home, this is where the user will sign up. The other two are login and logout. In app.js let's add the following:
 
 ```javascript
 app.get('/', routes.home);
@@ -65,7 +67,7 @@ app.get('/login', routes.login);
 app.get('/logout', routes.logout);
 ```
 
-And again, lets add the corresponding routes to our routes.js file.
+And again, let's add the corresponding routes to our routes.js file.
 
 ```javascript
 exports.home = function (request, response) {
@@ -85,7 +87,7 @@ We don't have the templates that these routes are going to try to render so let'
 
 ## Sign Up Page
 
-Let's start off by getting our sign up page going. Here we want the user to be able to come to the home page and sign up for an account by filling out a form. Inside of home.handlebars lets create a form.
+Let's start off by getting our sign up page going. Here we want the user to be able to come to the home page and sign up for an account by filling out a form. Inside of home.handlebars let's create a form.
 
 ```html
 <h1>Welcome</h1>
