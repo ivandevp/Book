@@ -1,4 +1,4 @@
-## Chapter Three: User Models and Authentication
+# Chapter Three: User Models and Authentication
 
 In this chapter, we are going to create the logic to sign users up and log them in and out. There are a million ways to do this properly, however, in this book we will be taking a simple and not very secure approach for simplicity. 
 
