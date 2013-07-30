@@ -74,8 +74,6 @@ exports.User = db.model('User', UserSchema);
 
 Above, we are defining `UserSchema` which is like a blueprint for creating users in the database. Every time we create a user we will use this blueprint and mongoose will know how we want our data structured. We also have enabled the basic auth plugin for our schema and exported it as `User` so we can use it from other files.
 
-
-
 Now, since we're going to be uploading files, we need to tell our app where to put the files when they are uploaded. In app.js:
 
 ```javascript
@@ -97,12 +95,26 @@ Also, we added in a few lines to enable the express cookieParser so that we can 
 First thing we need to do is create a couple routes, one we already have is home, this is where the user will sign up. The other two are login and logout. In app.js let's add the following:
 
 ```javascript
-app.get('/', routes.home);
-app.get('/login', routes.login);
+// Middleware function to add the user to the request object.
+app.use(function(request, response, next) {
+  if (request.session.userID) {
+    models.User.findOne({'_id': request.session.userID}, function(err, user) {
+      if (!err) request.user = user;
+      next();
+    });
+  }
+  else {
+    next();
+  }
+});
+
+app.all('/', routes.home);
+app.all('/login', routes.login);
 app.get('/logout', routes.logout);
+app.all('/feed', auth, routes.feed);
 ```
 
-And again, let's add the corresponding routes to our routes.js file.
+We created a few new routes here that use "all" as the allowed REST methods that they recieve. Meaning, they can recieve get or post requests. We also added in a middleware function that will check to see if the user is logged in before allowing them to visit the requested route. We pass `auth` when we register our `/feed` route and it will automatically call this middleware before calling our route. Now let's add the corresponding routes.
 
 ```javascript
 exports.home = function (request, response) {
@@ -340,4 +352,31 @@ exports.home = function (request, response) {
     response.render('home', { layout: 'base' });
   }
 }
+
+exports.login = function (request, response) {
+  response.render('login');
+}
+
+exports.logout = function (request, response) {
+  response.render('logout');
+}
+
+```
+
+Now since we are sending the user over to `/feed` when they sign up successfully we need to make that page. In app.js let's create that page now.
+
+
+
+```javascript
+app.use(function(request, response, next) {
+  if (request.session.userID) {
+    models.User.findOne({'_id': request.session.userID}, function(err, user) {
+      if (!err) request.user = user;
+      next();
+    });
+  }
+  else {
+    next();
+  }
+});
 ```
