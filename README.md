@@ -1,4 +1,5 @@
-# Null to Node
+# NulltoNode
+<img src="http://cl.ly/image/3U3F2w0F2o0u/Screen%20Shot%202013-07-30%20at%203.51.54%20PM.png">
 ##### A step by step guide to building a web application using Node.js and the Express web framework.
 
 ### Contents
