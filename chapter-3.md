@@ -1,4 +1,4 @@
-# Chapter Three: User Authentication
+# Chapter Three: User Models and Authentication
 
 In this chapter, we are going to create the logic to sign users up and log them in and out. There are a million ways to do this properly, however, in this book we will be taking a simple and not very secure approach for simplicity. 
 
@@ -35,11 +35,46 @@ For user authentication we are going to use the [basic-auth-mongoose](https://gi
 "basic-auth-mongoose": "0.1.x",
 "mongoose": "3.6.x",
 "mongodb" : "1.1.11"
+"underscore": "1.5.1"
 
 ...
 ```
 
+Also we're going to use [underscore](http://underscorejs.org/) for some things so we've added that to the dependencies as well.
+
 Now that we've changed our package.json file, we need to run `npm install`. Always remember to do this when package.json changes.
+
+Ok, now that we have a Mongo database set up, we need to get some Mongoose Models created so that we can store data in structured objects. Create a file in the root of your project and name it models.js and let's add a couple imports at the top.
+
+```javascript
+// Import Mongoose and connect it to our local database.
+var mongoose = require('mongoose');
+var db       = mongoose.connect('localhost', 'nulltonode');
+// Import the mongoose Schema object so we can create some database schemas
+var Schema   = mongoose.Schema;
+```
+
+Here we are importing mongoose and initializing a connection to our database. We're also importing `mongoose.schema` which we will use to create models of our data. Just after our import, let's add the following code.
+
+```javascript
+...
+
+var UserSchema = new Schema({
+  name:      { type: String, required: true },
+  username:  { type: String, required: true, lowercase: true, trim: true, index: { unique: true } },
+  image:     { type: String },
+  // following and followers are one to many relationships between users.
+  following: [ UserSchema ],
+  followers: [ UserSchema ],
+});
+
+UserSchema.plugin(require('basic-auth-mongoose'));
+exports.User = db.model('User', UserSchema);
+```
+
+Above, we are defining `UserSchema` which is like a blueprint for creating users in the database. Every time we create a user we will use this blueprint and mongoose will know how we want our data structured. We also have enabled the basic auth plugin for our schema and exported it as `User` so we can use it from other files.
+
+
 
 Now, since we're going to be uploading files, we need to tell our app where to put the files when they are uploaded. In app.js:
 
@@ -108,6 +143,14 @@ Let's start off by getting our sign up page going. Here we want the user to be a
 
 In this form, we have an input for name, username, and password along with an file input for the user's profile image. Notice that the form method is set to `POST`, this will tell our form to post data to the action url when the form is submitted. In this case our action is blank wich will post to the current location. Another thing to note is `enctype="multipart/form-data"` which will ensure that our image file will be posted to the server.
 
+If the form submission returns an error, the error will be shown above the form.
+
+```html
+{{#if formError }}
+  <p class="alert alert-warning">{{{ formError }}}</p>
+{{/if}}
+```
+
 When the form is submitted its going to post data to our home route. So lets go there and set things up to recieve this data. Our basic route is going to be structured like this.
 
 ```javascript
@@ -144,7 +187,74 @@ if (request.method == 'POST') {
 ...
 ```
 
-First we are grabbing the name, username, and password from response.body where normal form data is stored. We also grab `request.files.image.path` and store it which is where a path to a temporary file has been saved in our uploads directory.
+First we're grabbing the name, username, and password from response.body where normal form data is stored. We also grab `request.files.image.path` and store it which is where a path to a temporary file has been saved in our uploads directory. We also set the path on our server where we will store the image that the user uploads.
+
+At this point you need to make sure you have an uploads directory inside your public directory or you will run into problems because node can't create files in directories that do not exist.
+
+In the same block, let's add the logic needed to save the user's image to the uploads directory. First add the import for 
+
+
+```javascript
+...
+
+if (tmp_path) {
+  fs.rename(tmp_path, target_path, function(err) {
+    if (err) throw err;
+    // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
+    fs.unlink(tmp_path, function() {
+      if (err) throw err;
+      console.log('profile image successfully saved.');
+    });
+  });
+}
+else {
+  response.render('home', { layout: 'base', formError: 'You must upload a profile image.' });
+}
+
+...
+```
+
+We check to see if the user supplied an image by checking for `tmp_path`. Then we move the temp file to our new target location and delete the old file. If `tmp_path` is not present then we can assume the user did not supply a profile image so we will return an error to show on our home page.
+
+Here we're using the file system package to save the file to the uploads directory using the `tmp_path` and `target_path`. For this to work we need to import `fs` into our routes file. At the top of the file add it.
+
+```javascript
+var fs = require('fs');
+```
+-'
+''
+Next we want to handle the name, username, and password.\\=
+
+```javascript
+...
+
+// Check that the username and password are acceptable.
+if (username.length >= 3 && password.length >= 6) {
+  // Create a new user
+  var newUser = new models.User({
+    name: name,
+    username: username,
+    password: password,
+    image: target_path
+  });
+
+  // Save the new user.
+  newUser.save(function (error, user) {
+    if (error) {
+      response.render('home', { layout: 'base', formError: 'Sorry, that username is already taken.' });
+    }
+    else {
+      request.session.userID = user._id;
+      response.redirect('/feed');
+    }
+  });
+}
+else {
+  response.render('home', { layout: 'base', formError: 'Your username must contain at least 3 characters.<br/> Your password must contain at least 6 characters.' });
+}
+
+...
+```
 
 
 
