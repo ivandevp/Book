@@ -1,6 +1,33 @@
 # Chapter Three: User Authentication
 
-In this section, we are going to create the logic to sign users up and log them in and out. There are a million ways to do this properly, however, in this book we will be taking a simple and not very secure approach for simplicity.
+In this chapter, we are going to create the logic to sign users up and log them in and out. There are a million ways to do this properly, however, in this book we will be taking a simple and not very secure approach for simplicity. 
+
+We're going to be using mongoDB to store our users in the database and we will use the Mongoose ODM to create Schemas for our database. Schemas allow us to have pre-determined structure for the objects we store in our Mongo database. They can be very helpful.
+
+As a prerequisite, you should have MongoDB installed. Let's get mongo up and running and create a database. First, let's go to the command line and start the mongo server by typing the command
+
+```
+$ mongod
+all output going to: /usr/local/var/log/mongodb/mongo.log
+```
+
+Then to create the database go to the command line and type in mongo to enter the MongoDB shell. From here we can create a database, lets call it "nulltonode".
+
+```bash
+> 
+```
+
+We are going to use the basic-auth-mongoose library from github to log users in and out so let's add it to our package.json file.
+
+"basic-auth-mongoose": "0.1.x",
+
+
+
+Since we are going to be updloading files, we need to tell our app where to put the files when they are uploaded. In app.js let's do that now.
+
+```javascript
+
+```
 
 ## The Authentication routes
 
@@ -53,69 +80,46 @@ Let's start off by getting our sign up page going. Here we want the user to be a
 
 In this form, we have an input for name, username, and password along with an file input for the user's profile image. Notice that the form method is set to `POST`, this will tell our form to post data to the action url when the form is submitted. In this case our action is blank wich will post to the current location. Another thing to note is `enctype="multipart/form-data"` which will ensure that our image file will be posted to the server.
 
-When the form is submitted its going to post data to our home route. So lets go there and set things up to recieve this data.
+When the form is submitted its going to post data to our home route. So lets go there and set things up to recieve this data. Our basic route is going to be structured like this.
 
 ```javascript
 exports.home = function (request, response) {
-  if (request.session.userID) {
-    return response.redirect('/feed');
-  }
-
+  // Only attempt to process form data if the request method is POST
   if (request.method == 'POST') {
-    var name        = request.body.name;
-    var username    = request.body.username;
-    var password    = request.body.password;
-    var tmp_path    = request.files.image.path;
-
-    // Set the directory where we want to store the images. 
-    // Make sure to create this directory or it will throw an error.
-    var target_path = './uploads/images/' + request.files.image.name;
-
-    if (tmp_path) {
-      fs.rename(tmp_path, target_path, function(err) {
-        if (err) throw err;
-        // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
-        fs.unlink(tmp_path, function() {
-          if (err) throw err;
-          console.log('profile image successfully saved.');
-        });
-      });
-    }
-    else {
-      response.render('home', { layout: 'base', formError: 'You must upload a profile image.' });
-    }
-
-    // Check that the username and password are acceptable.
-    if (username.length >= 3 && password.length >= 6) {
-      // Create a new user
-      var newUser = new models.User({
-        name:     name,
-        username: username,
-        password: password,
-        image: target_path
-      });
-
-      // Save the new user.
-      newUser.save(function (error, user) {
-        if (error) {
-          response.render('home', { layout: 'base', formError: 'Sorry, that username is already taken.' });
-        }
-        else {
-          request.session.userID = user._id;
-          response.redirect('/feed');
-        }
-      });
-    }
-    else {
-      response.render('home', { layout: 'base', formError: 'Your username must contain at least 3 characters.<br/> Your password must contain at least 6 characters.' });
-    }
+    // process form data
   }
   else {
     response.render('home', { layout: 'base' });
   }
 }
-
 ```
+
+When a user visits the page it will send a GET request, but when they submit the form it will send a POST request, so we check for that and process the form if thats the case. Next we need to add some logic to process our form data.
+
+Next, inside our if body lets grab everything from the form that we need.
+
+```javascript
+...
+
+if (request.method == 'POST') {
+  // Store the form data in some variables
+  var name        = request.body.name;
+  var username    = request.body.username;
+  var password    = request.body.password;
+  var tmp_path    = request.files.image.path;
+
+  // Set the directory where we want to store the images. 
+  // Make sure to create this directory or it will throw an error.
+  var target_path = './public/uploads/' + request.files.image.name;
+}
+
+...
+```
+
+First we are grabbing the name, username, and password from response.body where normal form data is stored. We also grab `request.files.image.path` and store it which is where a path to a temporary file has been saved in our uploads directory.
+
+
+
 
 
 
