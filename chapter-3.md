@@ -369,9 +369,12 @@ Now since the user is logged in we need to give them a way to logout. The code t
 exports.logout = function (request, response) {
   // Delete the session and log the user out then return them to the home page.
   delete request.session.userID;
+  console.log('Successfully logged out');
   response.redirect('/');
 }
 ```
+
+So now if you navigate to [localhost:3000/logout](http://localhost:3000/logout) you will be logged out. You can check the terminal where your app is running to make sure it worked.
 
 Also, we want to make it so the user can log back in with their existing credentials. Let's start with the login view by creating login.handlebars within the views directory.
 
@@ -391,16 +394,26 @@ The login route and view should seem somewhat similar to the home route.
 
 ```javascript
 exports.login = function (request, response) {
-  // If the user is already logged in, send them to the feed page.
-  if (request.session.userID) {
-    return response.redirect('/feed');
-  }
-
   // If the user submitted the login form, attempt to log them in.
   if (request.method == 'POST') {
     // Grab the username and password from the post data. 
     var username = request.body.username;
     var password = request.body.password;
+    
+    // Query the database for the user we are looking for. If they exist try to log them in, otherwise return an error.
+    var user = models.User.findOne({'username': username }, function(error, user) {
+    if (error) response.render('login', { layout: 'base', formError: 'An error occurred. Please try again.' });
+  
+    // Check the password that was supplied.
+    if ( user && user.authenticate(password) ) {
+      request.session.userID = user.id;
+      console.log('Successfully logged in as '+ user.name);
+      response.redirect('/');
+    }
+    else {
+      // The user supplied an incorrect username/password
+      response.render('login', { layout: 'base', formError: 'Your login details were incorrect. Please try again.' });
+    }
   }
   else {
     // No form was submitted, just show the login page.
