@@ -399,25 +399,26 @@ exports.login = function (request, response) {
     // Grab the username and password from the post data. 
     var username = request.body.username;
     var password = request.body.password;
-    
+
     // Query the database for the user we are looking for. If they exist try to log them in, otherwise return an error.
     var user = models.User.findOne({'username': username }, function(error, user) {
-    if (error) response.render('login', { layout: 'base', formError: 'An error occurred. Please try again.' });
-  
-    // Check the password that was supplied.
-    if ( user && user.authenticate(password) ) {
-      request.session.userID = user.id;
-      console.log('Successfully logged in as '+ user.name);
-      response.redirect('/');
-    }
-    else {
-      // The user supplied an incorrect username/password
-      response.render('login', { layout: 'base', formError: 'Your login details were incorrect. Please try again.' });
-    }
+      if (error) response.render('login', { layout: 'main', formError: 'An error occurred. Please try again.' });
+    
+      // Check the password that was supplied.
+      if ( user && user.authenticate(password) ) {
+        request.session.userID = user.id;
+        console.log('Successfully logged in as '+ user.name);
+        response.redirect('/');
+      }
+      else {
+        // The user supplied an incorrect username/password
+        response.render('login', { layout: 'main', formError: 'Your login details were incorrect. Please try again.' });
+      }
+    });
   }
   else {
     // No form was submitted, just show the login page.
-    response.render('login', { layout: 'base' });
+    response.render('login', { layout: 'main' });
   }  
 }
 ```
