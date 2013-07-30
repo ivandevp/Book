@@ -197,7 +197,9 @@ In the same block, let's add the logic needed to save the user's image to the up
 ```javascript
 ...
 
+// Check to see if the user uploaded a profile image.
 if (tmp_path) {
+  // If the tmp file exists lets move it to a permanent location.
   fs.rename(tmp_path, target_path, function(err) {
     if (err) throw err;
     // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
@@ -208,6 +210,7 @@ if (tmp_path) {
   });
 }
 else {
+  // It appears no image was supplied so let's return an error and tell the user to provide one.
   response.render('home', { layout: 'base', formError: 'You must upload a profile image.' });
 }
 
@@ -229,35 +232,112 @@ Next we want to handle the name, username, and password.
 
 // Check that the username and password are acceptable.
 if (username.length >= 3 && password.length >= 6) {
-  // Create a new user
+  // Create a new user using our user schema
   var newUser = new models.User({
+    // Pass in the data from our form.
     name: name,
     username: username,
     password: password,
     image: target_path
   });
 
-  // Save the new user.
+  // Attempt to save the new user.
   newUser.save(function (error, user) {
     if (error) {
+      // If the save fails, it may be because the username is already taken so return an error.
       response.render('home', { layout: 'base', formError: 'Sorry, that username is already taken.' });
     }
     else {
+      // Store the user id in a session cookie so we know the user is logged in now.
       request.session.userID = user._id;
+      // Redirect the user to their /feed page.
       response.redirect('/feed');
     }
   });
 }
 else {
+  // If the username and password validation failed, return an error.
   response.render('home', { layout: 'base', formError: 'Your username must contain at least 3 characters.<br/> Your password must contain at least 6 characters.' });
 }
 
 ...
 ```
 
+The commenting in this code can shed some light on what is happening exactly. Basically we make sure we have everything we need to create a user, then we create that user and sign them in. Otherwise we return an error to the home page and ask the user to correct the form. Also, since we are using the User model in this code we need to import models at the top of our routes.js file
 
+```javascript
+var models = require('./models');
+```
 
+So now putting everything together, our routes file should look like this.
 
+```javascript
+var models = require('./models');
+var fs = require('fs');
 
+exports.home = function (request, response) {
+  // Only attempt to process form data if the request method is POST
+  if (request.method == 'POST') {
+    // Store the form data in some variables
+    var name        = request.body.name;
+    var username    = request.body.username;
+    var password    = request.body.password;
+    var tmp_path    = request.files.image.path;
 
-> [Next Chapter >>](https://github.com/NullToNode/Book/blob/master/chapter-4.md)
+    // Set the directory where we want to store the images. 
+    // Make sure to create this directory or it will throw an error.
+    var target_path = './public/uploads/' + request.files.image.name;
+
+    // Check to see if the user uploaded a profile image.
+    if (tmp_path) {
+      // If the tmp file exists lets move it to a permanent location.
+      fs.rename(tmp_path, target_path, function(err) {
+        if (err) throw err;
+        // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
+        fs.unlink(tmp_path, function() {
+          if (err) throw err;
+          console.log('profile image successfully saved.');
+        });
+      });
+    }
+    else {
+      // It appears no image was supplied so let's return an error and tell the user to provide one.
+      response.render('home', { layout: 'base', formError: 'You must upload a profile image.' });
+    }
+
+    // Check that the username and password are acceptable.
+    if (username.length >= 3 && password.length >= 6) {
+      // Create a new user using our user schema
+      var newUser = new models.User({
+        // Pass in the data from our form.
+        name: name,
+        username: username,
+        password: password,
+        image: target_path
+      });
+
+      // Attempt to save the new user.
+      newUser.save(function (error, user) {
+        if (error) {
+          // If the save fails, it may be because the username is already taken so return an error.
+          response.render('home', { layout: 'base', formError: 'Sorry, that username is already taken.' });
+        }
+        else {
+          // Store the user id in a session cookie so we know the user is logged in now.
+          request.session.userID = user._id;
+          // Redirect the user to their /feed page.
+          response.redirect('/feed');
+        }
+      });
+    }
+    else {
+      // If the username and password validation failed, return an error.
+      response.render('home', { layout: 'base', formError: 'Your username must contain at least 3 characters.<br/> Your password must contain at least 6 characters.' });
+    }
+  }
+  else {
+    // No form was submitted, render the home page.
+    response.render('home', { layout: 'base' });
+  }
+}
+```
