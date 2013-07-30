@@ -173,7 +173,7 @@ exports.home = function (request, response) {
     // process form data
   }
   else {
-    response.render('home', { layout: 'base' });
+    response.render('home', { layout: 'main' });
   }
 }
 ```
@@ -224,7 +224,7 @@ if (tmp_path) {
 }
 else {
   // It appears no image was supplied so let's return an error and tell the user to provide one.
-  response.render('home', { layout: 'base', formError: 'You must upload a profile image.' });
+  response.render('home', { layout: 'main', formError: 'You must upload a profile image.' });
 }
 
 ...
@@ -258,7 +258,7 @@ if (username.length >= 3 && password.length >= 6) {
   newUser.save(function (error, user) {
     if (error) {
       // If the save fails, it may be because the username is already taken so return an error.
-      response.render('home', { layout: 'base', formError: 'Sorry, that username is already taken.' });
+      response.render('home', { layout: 'main', formError: 'Sorry, that username is already taken.' });
     }
     else {
       // Store the user id in a session cookie so we know the user is logged in now.
@@ -270,7 +270,7 @@ if (username.length >= 3 && password.length >= 6) {
 }
 else {
   // If the username and password validation failed, return an error.
-  response.render('home', { layout: 'base', formError: 'Your username must contain at least 3 characters.<br/> Your password must contain at least 6 characters.' });
+  response.render('home', { layout: 'main', formError: 'Your username must contain at least 3 characters.<br/> Your password must contain at least 6 characters.' });
 }
 
 ...
@@ -315,7 +315,7 @@ exports.home = function (request, response) {
     }
     else {
       // It appears no image was supplied so let's return an error and tell the user to provide one.
-      response.render('home', { layout: 'base', formError: 'You must upload a profile image.' });
+      response.render('home', { layout: 'main', formError: 'You must upload a profile image.' });
     }
 
     // Check that the username and password are acceptable.
@@ -333,7 +333,7 @@ exports.home = function (request, response) {
       newUser.save(function (error, user) {
         if (error) {
           // If the save fails, it may be because the username is already taken so return an error.
-          response.render('home', { layout: 'base', formError: 'Sorry, that username is already taken.' });
+          response.render('home', { layout: 'main', formError: 'Sorry, that username is already taken.' });
         }
         else {
           // Store the user id in a session cookie so we know the user is logged in now.
@@ -345,12 +345,12 @@ exports.home = function (request, response) {
     }
     else {
       // If the username and password validation failed, return an error.
-      response.render('home', { layout: 'base', formError: 'Your username must contain at least 3 characters.<br/> Your password must contain at least 6 characters.' });
+      response.render('home', { layout: 'main', formError: 'Your username must contain at least 3 characters.<br/> Your password must contain at least 6 characters.' });
     }
   }
   else {
     // No form was submitted, render the home page.
-    response.render('home', { layout: 'base' });
+    response.render('home', { layout: 'main' });
   }
 }
 
