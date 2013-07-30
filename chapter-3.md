@@ -221,9 +221,8 @@ Here we're using the file system package to save the file to the uploads directo
 ```javascript
 var fs = require('fs');
 ```
--'
-''
-Next we want to handle the name, username, and password.\\=
+
+Next we want to handle the name, username, and password.
 
 ```javascript
 ...
@@ -261,4 +260,4 @@ else {
 
 
 
-[Next Chapter >>](https://github.com/NullToNode/Book/blob/master/chapter-4.md)
+> [Next Chapter >>](https://github.com/NullToNode/Book/blob/master/chapter-4.md)
