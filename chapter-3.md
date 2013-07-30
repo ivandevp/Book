@@ -11,23 +11,49 @@ $ mongod
 all output going to: /usr/local/var/log/mongodb/mongo.log
 ```
 
-Then to create the database go to the command line and type in mongo to enter the MongoDB shell. From here we can create a database, lets call it "nulltonode".
+Then to create the database go to the command line and type in mongo to enter the MongoDB shell. 
 
 ```bash
+$ mongo
+MongoDB shell version: 2.4.3
+connecting to: test
 > 
 ```
 
-We are going to use the basic-auth-mongoose library from github to log users in and out so let's add it to our package.json file.
+From here we can create a database, lets call it "nulltonode".
 
-"basic-auth-mongoose": "0.1.x",
+```bash
+> use nulltonode
+switched to db nulltonode
+```
 
-
-
-Since we are going to be updloading files, we need to tell our app where to put the files when they are uploaded. In app.js let's do that now.
+For user authentication we are going to use the [basic-auth-mongoose](https://github.com/thauburger/basic-auth-mongoose) library from github to log users in and out. We're also using mongoDB and the Mongoose ODM so let's add them all to our package.json file.
 
 ```javascript
+...
 
+"basic-auth-mongoose": "0.1.x",
+"mongoose": "3.6.x",
+"mongodb" : "1.1.11"
+
+...
 ```
+
+Also, since we're going to be updloading files, we need to tell our app where to put the files when they are uploaded. In app.js let's do that now.
+
+```javascript
+...
+
+// Upload directory for our images
+app.use(express.bodyParser({uploadDir:'./public/uploads'}));
+// Cookie parser for our authentication library.
+app.use(express.cookieParser());
+app.use(express.cookieSession({ secret: 'secret123' }));
+
+...
+```
+
+Also, we added in a few lines to enable the express cookieParser so that we can store user sessions. You can read more about this feature [here](http://expressjs.com/api.html#cookieParser). But you don't need to worry too much about it for now.
 
 ## The Authentication routes
 
