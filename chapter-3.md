@@ -363,20 +363,48 @@ exports.logout = function (request, response) {
 }
 ```
 
-Now since we are sending the user over to `/feed` when they sign up successfully we need to make that page. In app.js let's create that page now.
-
-
+Now since the user is logged in we need to give them a way to logout. The code to log a user out is pretty simple.
 
 ```javascript
-app.use(function(request, response, next) {
+exports.logout = function (request, response) {
+  // Delete the session and log the user out then return them to the home page.
+  delete request.session.userID;
+  response.redirect('/');
+}
+```
+
+Also, we want to make it so the user can log back in with their existing credentials. Let's start with the login view by creating login.handlebars within the views directory.
+
+```html
+<p class="lead">Log In</p>
+{{#if formError }}
+<p class="alert alert-warning">{{{ formError }}}</p>
+{{/if}}
+<form action="" method="POST" accept-charset="utf-8">
+  <input type="text" name="username" value="" placeholder="username"><br/>
+  <input type="password" name="password" value="" placeholder="password"><br/>
+  <input class="btn btn-primary" type="submit" name="" value="Log In">
+</form>
+```
+
+The login route and view should seem somewhat similar to the home route.
+
+```javascript
+exports.login = function (request, response) {
+  // If the user is already logged in, send them to the feed page.
   if (request.session.userID) {
-    models.User.findOne({'_id': request.session.userID}, function(err, user) {
-      if (!err) request.user = user;
-      next();
-    });
+    return response.redirect('/feed');
+  }
+
+  // If the user submitted the login form, attempt to log them in.
+  if (request.method == 'POST') {
+    // Grab the username and password from the post data. 
+    var username = request.body.username;
+    var password = request.body.password;
   }
   else {
-    next();
-  }
-});
+    // No form was submitted, just show the login page.
+    response.render('login', { layout: 'base' });
+  }  
+}
 ```
