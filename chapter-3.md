@@ -111,10 +111,11 @@ app.use(function(request, response, next) {
 app.all('/', routes.home);
 app.all('/login', routes.login);
 app.get('/logout', routes.logout);
-app.all('/feed', auth, routes.feed);
 ```
 
-We created a few new routes here that use "all" as the allowed REST methods that they recieve. Meaning, they can recieve get or post requests. We also added in a middleware function that will check to see if the user is logged in before allowing them to visit the requested route. We pass `auth` when we register our `/feed` route and it will automatically call this middleware before calling our route. Now let's add the corresponding routes.
+We also created a middleware function that will be called during every request. The middleware function will add the current logged in users ID to the request object that is available in every route so we have access to it. 
+
+Now let's create the corresponding routes.
 
 ```javascript
 exports.home = function (request, response) {
@@ -262,8 +263,8 @@ if (username.length >= 3 && password.length >= 6) {
     else {
       // Store the user id in a session cookie so we know the user is logged in now.
       request.session.userID = user._id;
-      // Redirect the user to their /feed page.
-      response.redirect('/feed');
+      // The user was successfully saved.
+      console.log('The user was successfully saved.');
     }
   });
 }
@@ -337,8 +338,8 @@ exports.home = function (request, response) {
         else {
           // Store the user id in a session cookie so we know the user is logged in now.
           request.session.userID = user._id;
-          // Redirect the user to their /feed page.
-          response.redirect('/feed');
+          // The user was successfully saved.
+          console.log('The user was successfully saved.');
         }
       });
     }
@@ -360,7 +361,6 @@ exports.login = function (request, response) {
 exports.logout = function (request, response) {
   response.render('logout');
 }
-
 ```
 
 Now since we are sending the user over to `/feed` when they sign up successfully we need to make that page. In app.js let's create that page now.
