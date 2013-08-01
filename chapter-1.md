@@ -23,7 +23,13 @@ Next, we are going to install the Express web framwork using NPM.
 
 `$ npm install -g express`
 
-You will start to see a lot of lines print out, basically this is the feedback npm outputs when installing a package. Don't worry too much about it for now. Again, let's check to make sure that it is installed properly.
+You will start to see a lot of lines print out, basically this is the feedback npm outputs when installing a package. Don't worry too much about it for now.
+
+If you get errors at this stage you probably need to install Express as the administrator. Use this command. You will be prompted for your adminstrator password.
+
+`$ sudo npm install -g express`
+
+Again, let's check to make sure that it is installed properly.
 
 ```
 $ express --version
@@ -151,7 +157,7 @@ exports.home = function (request, response) {
 }
 ```
 
-When we called `require('./routes')` we are importing the routes.js file, and that file will give us access to the exports object. That is why we create our welcome function as a property of exports using `exports.welcome`. That means that when we import this file we will have access to it as a property called welcome. Anything else defined in this file will be unavailable outside of the file unless it is attached to the exports object. 
+When we called `require('./routes')` we are importing the routes.js file, and that file will give us access to the exports object. That is why we create our welcome function as a property of exports using `exports.welcome`. That means that when we import this file we will have access to it as a property called welcome. Anything else defined in this file will be unavailable outside of the file unless it is attached to the exports object.
 
 Now, let's restart the app and visit [http://localhost:3000/](http://localhost:3000/) and we should see our welcome page.
 
