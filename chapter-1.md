@@ -74,7 +74,7 @@ Using our favorite text editor, within our app directory we're going to create a
 
 This file defines our express app and will tell npm what packages we will need to install. For now, we just have express listed as a dependency. The "3.x" means that our app requires any version of express, for example: `3.1`, `3.3.2` or `3.3.4`. We'll cover this in greater detail later on.
 
-Now back to the command line, lets install our dependencies using npm. Within the development
+Now back to the command line, let's install our dependencies using npm. Within the development directory run:
 
 `$ npm install`
 
