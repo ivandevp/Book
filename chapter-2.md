@@ -14,7 +14,7 @@ When a user comes to our site for the first time, we want to greet them with a w
 }
 ```
 
-Make sure to add a commas at the end of each dependecy EXCEPT for the last one or you will run into trouble. Now let's run npm install in our root directory so that it will install handlebars.
+Make sure to add a comma at the end of each dependecy EXCEPT for the last one or you will run into trouble. Now let's run npm install in our root directory so that it will install handlebars.
 
 ```bash
 $ npm install
