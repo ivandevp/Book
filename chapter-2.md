@@ -61,7 +61,7 @@ console.log('App running on port 3000');
 
 Now, since we are telling our app to use a layout file called main, we need to create it. Create a directory at the same level as app.js called views. This is where we will keep all of our handlebars templates and layouts. Within the views directory, create another directory called layouts. This directory structure is required for Handlebars to find our layout file. To find out more, visit [here](https://github.com/ericf/express3-handlebars#basic-usage).
 
-A layout is an html file that contains the structure of our site, it contains all of the content in our site that will persist from page to page, that way we don't have to write the same html files over and over. This is a really important concept to understand because it saves a lot of time down the road. If we want to change something with the layout of our site, we only have to change it in our layout file, instead of tediously updating every html file by hand and making mistakes along the way.
+A layout is an html file that contains the structure of our site.  It contains all of the content in our site that will persist from page to page so we don't have to write the same html files over and over. This is a really important concept to understand because it saves a lot of time down the road. If we want to change something with the layout of our site, we only have to change it in our layout file, instead of tediously updating every html file by hand and making mistakes along the way.
 
 So let's create a really basic layout. Inside the layout directory let's create a file called main.handlebars and fill it with some basic HTML content.
 
