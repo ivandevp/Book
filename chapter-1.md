@@ -21,7 +21,7 @@ If you don't see that line, node is not installed. Go back to the installation s
 
 Next, we are going to install the Express web framwork using NPM.
 
-`$ npm install -g express`
+`$ sudo npm install -g express`
 
 You will start to see a lot of lines print out, basically this is the feedback npm outputs when installing a package. Don't worry too much about it for now. Again, let's check to make sure that it is installed properly.
 
