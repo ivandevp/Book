@@ -34,7 +34,7 @@ var hbs = require('express3-handlebars');
 And we need to tell our app to set handlebars as our templating engine.
 
 ```javascript
-// Set handlebars as the default tempating engine
+// Set handlebars as the default templating engine
 // and use main.handlebars as our default layout.
 app.engine('handlebars', hbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
@@ -48,7 +48,7 @@ var app = express();
 var routes = require('./routes');
 var hbs = require('express3-handlebars');
 
-// Set handlebars as the default tempating engine
+// Set handlebars as the default templating engine
 // and use main.handlebars as our default layout.
 app.engine('handlebars', hbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
