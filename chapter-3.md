@@ -179,6 +179,11 @@ exports.home = function (request, response) {
 
 When a user visits the page it will send a GET request, but when they submit the form it will send a POST request, so we check for that and process the form if thats the case. Next we need to add some logic to process our form data.
 
+Why did we change: response.render('home');
+to: response.render('home', { layout: 'main' });
+Didn't we set the default layout to main so it would use it without this addition?
+Still it is good to know we can toss in a new layout this way.
+
 Next, inside our if body lets grab everything from the form that we need.
 
 ```javascript
