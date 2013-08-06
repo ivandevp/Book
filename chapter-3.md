@@ -88,7 +88,9 @@ app.use(express.cookieSession({ secret: 'secret123' }));
 ...
 ```
 
-Also, we added in a few lines to enable the express cookieParser so that we can store user sessions. You can read more about this feature [here](http://expressjs.com/api.html#cookieParser). But you don't need to worry too much about it for now.
+Also, we added in a few lines to enable the express cookieParser so that we can store user sessions. You can read more about this feature [here](http://expressjs.com/api.html#cookieParser). But you don't need to worry too much about it for now. 
+
+The ./ that we used to specify where the uploadDir will be just means the directory you are currently at. In this case it is the root directory.
 
 ## The Authentication routes
 
