@@ -429,6 +429,6 @@ exports.login = function (request, response) {
 
 Now if we click the "Log In" link, we see the login page and form. Type in your test username and password, hit the "Log In" button and you'll be logged in. Again, check terminal to make sure everything worked alright.
 
-In the next chapter we will start building all of the routes and views for logged in users. Right now we can log in and out which is awesome, but we really don't get do do much more than that. The good thing is that this is really the hardest part of setting up our site. From here on out we will be building some cool functionality and really starting to see things come together.
+In the next chapter we will start building all of the routes and views for logged in users. Right now we can log in and out which is awesome, but we really don't get to do much more than that. The good thing is that this is really the hardest part of setting up our site. From here on out we will be building some cool functionality and really starting to see things come together.
 
 
