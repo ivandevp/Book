@@ -74,7 +74,7 @@ exports.User = db.model('User', UserSchema);
 
 Above, we are defining `UserSchema` which is like a blueprint for creating users in the database. Every time we create a user we will use this blueprint and mongoose will know how we want our data structured. We also have enabled the basic auth plugin for our schema and exported it as `User` so we can use it from other files.
 
-Now, since we're going to be uploading files, we need to tell our app where to put the files when they are uploaded. In app.js:
+Now, since we're going to be uploading files, we need to tell our app where to put the files when they are uploaded. In app.js add this under the app.get('/', routes.home); line:
 
 ```javascript
 ...
@@ -92,7 +92,7 @@ Also, we added in a few lines to enable the express cookieParser so that we can 
 
 ## The Authentication routes
 
-First thing we need to do is create a couple routes, one we already have is home, this is where the user will sign up. The other two are login and logout. In app.js let's add the following:
+First thing we need to do is create a couple routes, one we already have is home, this is where the user will sign up. The other two are login and logout. In app.js you can remove the app.get('/', routes.home); line and replace it with the following:
 
 ```javascript
 // Middleware function to add the user to the request object.
@@ -115,12 +115,9 @@ app.get('/logout', routes.logout);
 
 We also created a middleware function that will be called during every request. The middleware function will add the current logged in users ID to the request object that is available in every route so we have access to it. 
 
-Now let's create the corresponding routes.
+Now let's create the corresponding routes. In your routes.js file add the login and logout routes under the home route.
 
 ```javascript
-exports.home = function (request, response) {
-  response.render('home');
-}
 
 exports.login = function (request, response) {
   response.render('login');
