@@ -34,7 +34,7 @@ For user authentication we are going to use the [basic-auth-mongoose](https://gi
 
 "basic-auth-mongoose": "0.1.x",
 "mongoose": "3.6.x",
-"mongodb" : "1.1.11"
+"mongodb": "1.1.11",
 "underscore": "1.5.1"
 
 ...
