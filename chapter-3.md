@@ -27,7 +27,7 @@ From here we can create a database, lets call it "nulltonode".
 switched to db nulltonode
 ```
 
-For user authentication we are going to use the [basic-auth-mongoose](https://github.com/thauburger/basic-auth-mongoose) library from github to log users in and out. We're also using mongoDB and the Mongoose ODM so let's add them all to our package.json file.
+For user authentication we are going to use the [basic-auth-mongoose](https://github.com/thauburger/basic-auth-mongoose) library from github to log users in and out. We're also using mongoDB and the Mongoose ODM so let's add them all to our package.json file in the dependencies object.
 
 ```javascript
 ...
