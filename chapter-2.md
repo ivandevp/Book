@@ -14,7 +14,7 @@ When a user comes to our site for the first time, we want to greet them with a w
 }
 ```
 
-Make sure to add a commas at the end of each dependecy EXCEPT for the last one or you will run into trouble. Now let's run npm install in our root directory so that it will install handlebars.
+Make sure to add a comma at the end of each dependecy EXCEPT for the last one or you will run into trouble. Now let's run npm install in our root directory so that it will install handlebars.
 
 ```bash
 $ npm install
@@ -34,7 +34,7 @@ var hbs = require('express3-handlebars');
 And we need to tell our app to set handlebars as our templating engine.
 
 ```javascript
-// Set handlebars as the default tempating engine
+// Set handlebars as the default templating engine
 // and use main.handlebars as our default layout.
 app.engine('handlebars', hbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
@@ -48,7 +48,7 @@ var app = express();
 var routes = require('./routes');
 var hbs = require('express3-handlebars');
 
-// Set handlebars as the default tempating engine
+// Set handlebars as the default templating engine
 // and use main.handlebars as our default layout.
 app.engine('handlebars', hbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
@@ -59,9 +59,9 @@ app.listen(3000);
 console.log('App running on port 3000');
 ```
 
-Now, since we are telling our app to use a layout file called main, we need to create it. Create a directory at the same level as app.js called views. This is where we will keep all of our handlebars templates and layouts. Within the views directory, create another directory called layouts.
+Now, since we are telling our app to use a layout file called main, we need to create it. Create a directory at the same level as app.js called views. This is where we will keep all of our handlebars templates and layouts. Within the views directory, create another directory called layouts. This directory structure is required for Handlebars to find our layout file. To find out more, visit [here](https://github.com/ericf/express3-handlebars#basic-usage).
 
-A layout is an html file that contains the structure of our site, it contains all of the content in our site that will persist from page to page, that way we don't have to write the same html files over and over. This is a really important concept to understand because it saves a lot of time down the road. If we want to change something with the layout of our site, we only have to change it in our layout file, instead of tediously updating every html file by hand and making mistakes along the way.
+A layout is an html file that contains the structure of our site.  It contains all of the content in our site that will persist from page to page so we don't have to write the same html files over and over. This is a really important concept to understand because it saves a lot of time down the road. If we want to change something with the layout of our site, we only have to change it in our layout file, instead of tediously updating every html file by hand and making mistakes along the way.
 
 So let's create a really basic layout. Inside the layout directory let's create a file called main.handlebars and fill it with some basic HTML content.
 
