@@ -11,7 +11,7 @@ $ mongod
 all output going to: /usr/local/var/log/mongodb/mongo.log
 ```
 
-Then to create the database go to the command line and type in mongo to enter the MongoDB shell. 
+Then to create the database open another command line window and type in mongo to enter the MongoDB shell. 
 
 ```bash
 $ mongo
