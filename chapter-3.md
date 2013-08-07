@@ -27,7 +27,7 @@ From here we can create a database, lets call it "nulltonode".
 switched to db nulltonode
 ```
 
-For user authentication we are going to use the [basic-auth-mongoose](https://github.com/thauburger/basic-auth-mongoose) library from github to log users in and out. We're also using mongoDB and the Mongoose ODM so let's add them all to our package.json file.
+For user authentication we are going to use the [basic-auth-mongoose](https://github.com/thauburger/basic-auth-mongoose) library from github to log users in and out. We're also using mongoDB and the Mongoose ODM so let's add them all to our package.json file in the dependencies object.
 
 ```javascript
 ...
@@ -153,7 +153,7 @@ Let's start off by getting our sign up page going. Here we want the user to be a
 </form>
 ```
 
-In this form, we have an input for name, username, and password along with an file input for the user's profile image. Notice that the form method is set to `POST`, this will tell our form to post data to the action url when the form is submitted. In this case our action is blank which will post to the current location. Another thing to note is `enctype="multipart/form-data"` which will ensure that our image file will be posted to the server.
+In this form, we have an input for name, username, and password along with a file input for the user's profile image. Notice that the form method is set to `POST`, this will tell our form to post data to the action url when the form is submitted. In this case our action is blank wich will post to the current location. Another thing to note is `enctype="multipart/form-data"` which will ensure that our image file will be posted to the server.
 
 If the form submission returns an error, the error will be shown above the form.
 

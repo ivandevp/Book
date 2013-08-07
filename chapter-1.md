@@ -21,7 +21,7 @@ If you don't see that line, node is not installed. Go back to the installation s
 
 Next, we are going to install the Express web framwork using NPM.
 
-`$ npm install -g express`
+`$ sudo npm install -g express`
 
 You will start to see a lot of lines print out, basically this is the feedback npm outputs when installing a package. Don't worry too much about it for now.
 
@@ -129,7 +129,7 @@ To stop our node server; while in the command line where your app is running, hi
 
 In app.js, we mapped a route `/hello` to call an anonymous function and that anonymous function served up some simple content. This works fine, but as our app grows, we probably aren't going to want all of our logic to be within our main app.js file. To seperate it up a bit and keep things a little more tidy, we're going to move our route functions to a new file called routes.js. So let's create a routes.js file in the same directory as app.js.
 
-Now in app.js, lets import our routes file so that we can use it. At the top of our file, add the following line
+Now in app.js, lets import our routes file so that we can use it. At the top of our file, below `var app = express();` add the following line
 
 ```javascript
 var routes = require('./routes');
