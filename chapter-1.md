@@ -23,7 +23,13 @@ Next, we are going to install the Express web framwork using NPM.
 
 `$ sudo npm install -g express`
 
-You will start to see a lot of lines print out, basically this is the feedback npm outputs when installing a package. Don't worry too much about it for now. Again, let's check to make sure that it is installed properly.
+You will start to see a lot of lines print out, basically this is the feedback npm outputs when installing a package. Don't worry too much about it for now.
+
+If you get errors at this stage you probably need to install Express as the administrator. Use this command. You will be prompted for your adminstrator password.
+
+`$ sudo npm install -g express`
+
+Again, let's check to make sure that it is installed properly.
 
 ```
 $ express --version
@@ -68,7 +74,7 @@ Using our favorite text editor, within our app directory we're going to create a
 
 This file defines our express app and will tell npm what packages we will need to install. For now, we just have express listed as a dependency. The "3.x" means that our app requires any version of express, for example: `3.1`, `3.3.2` or `3.3.4`. We'll cover this in greater detail later on.
 
-Now back to the command line, lets install our dependencies using npm. Within the development
+Now back to the command line, let's install our dependencies using npm. Within the development directory run:
 
 `$ npm install`
 
@@ -151,7 +157,7 @@ exports.home = function (request, response) {
 }
 ```
 
-When we called `require('./routes')` we are importing the routes.js file, and that file will give us access to the exports object. That is why we create our home function as a property of exports using `exports.home`. That means that when we import this file we will have access to it as a property called home. Anything else defined in this file will be unavailable outside of the file unless it is attached to the exports object. 
+When we called `require('./routes')` we are importing the routes.js file, and that file will give us access to the exports object. That is why we create our home function as a property of exports using `exports.home`. That means that when we import this file we will have access to it as a property called home. Anything else defined in this file will be unavailable outside of the file unless it is attached to the exports object.
 
 Now, let's restart the app and visit [http://localhost:3000/](http://localhost:3000/) and we should see our welcome page.
 

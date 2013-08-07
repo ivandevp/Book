@@ -86,7 +86,7 @@ Now let's get to that template content. In our views directory let's create a fi
 <p>Glad you could make it!</p>
 ```
 
-Now in our home route, let's tell the app to serve up a template called 'home' when the user visits the root path of our site. We do this by calling response.render and passing in the name of our template which is 'home'.
+Now in our routes.js file in the home route, let's tell the app to serve up a template called 'home' when the user visits the root path of our site. We do this by calling response.render and passing in the name of our template which is 'home'. Go ahead and remove the response.send("Welcome"); line and replace it with response.render('home'); as shown below.
 
 ```javascript
 exports.home = function (request, response) {
@@ -98,7 +98,7 @@ Let's restart our app and see what our welcome page looks like now.
 
 <img src="http://cl.ly/image/3K023i3z0a3R/Screen%20Shot%202013-06-21%20at%2011.07.20%20AM.png">
 
-Not too exciting, but that's about to change. We're going to make our layout a bit nicer. 
+Not too exciting, but that's about to change. We're going to make our layout a bit nicer.
 
 For simplicity, we're going to use Twitter's <a href="http://getbootstrap.com/2.3.2/" target="_blank">Bootstrap</a> to develop the front end of our website. Bootstrap is a front-end framework that comes with some really nice features. It will help us create a nice clean site that looks good without much effort.
 

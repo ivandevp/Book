@@ -11,7 +11,7 @@ $ mongod
 all output going to: /usr/local/var/log/mongodb/mongo.log
 ```
 
-Then to create the database go to the command line and type in mongo to enter the MongoDB shell. 
+Then to create the database open another command line window and type in mongo to enter the MongoDB shell. 
 
 ```bash
 $ mongo
@@ -34,7 +34,7 @@ For user authentication we are going to use the [basic-auth-mongoose](https://gi
 
 "basic-auth-mongoose": "0.1.x",
 "mongoose": "3.6.x",
-"mongodb" : "1.1.11"
+"mongodb": "1.1.11",
 "underscore": "1.5.1"
 
 ...
@@ -74,7 +74,7 @@ exports.User = db.model('User', UserSchema);
 
 Above, we are defining `UserSchema` which is like a blueprint for creating users in the database. Every time we create a user we will use this blueprint and mongoose will know how we want our data structured. We also have enabled the basic auth plugin for our schema and exported it as `User` so we can use it from other files.
 
-Now, since we're going to be uploading files, we need to tell our app where to put the files when they are uploaded. In app.js:
+Now, since we're going to be uploading files, we need to tell our app where to put the files when they are uploaded. In app.js add this under the app.get('/', routes.home); line:
 
 ```javascript
 ...
@@ -88,11 +88,13 @@ app.use(express.cookieSession({ secret: 'secret123' }));
 ...
 ```
 
-Also, we added in a few lines to enable the express cookieParser so that we can store user sessions. You can read more about this feature [here](http://expressjs.com/api.html#cookieParser). But you don't need to worry too much about it for now.
+Also, we added in a few lines to enable the express cookieParser so that we can store user sessions. You can read more about this feature [here](http://expressjs.com/api.html#cookieParser). But you don't need to worry too much about it for now. 
+
+The ./ that we used to specify where the uploadDir will be just means the directory you are currently at. In this case it is the root directory.
 
 ## The Authentication routes
 
-First thing we need to do is create a couple routes, one we already have is home, this is where the user will sign up. The other two are login and logout. In app.js let's add the following:
+First thing we need to do is create a couple routes, one we already have is home, this is where the user will sign up. The other two are login and logout. In app.js you can remove the app.get('/', routes.home); line and replace it with the following:
 
 ```javascript
 // Middleware function to add the user to the request object.
@@ -113,14 +115,17 @@ app.all('/login', routes.login);
 app.get('/logout', routes.logout);
 ```
 
-We also created a middleware function that will be called during every request. The middleware function will add the current logged in users ID to the request object that is available in every route so we have access to it. 
-
-Now let's create the corresponding routes.
+Since we added a models call here we need to add this to the top of app.js under the express3-handlebars include
 
 ```javascript
-exports.home = function (request, response) {
-  response.render('home');
-}
+var models = require('./models');
+```
+
+We also created a middleware function that will be called during every request. The middleware function will add the current logged in users ID to the request object that is available in every route so we have access to it. 
+
+Now let's create the corresponding routes. In your routes.js file add the login and logout routes under the home route.
+
+```javascript
 
 exports.login = function (request, response) {
   response.render('login');
@@ -179,6 +184,11 @@ exports.home = function (request, response) {
 ```
 
 When a user visits the page it will send a GET request, but when they submit the form it will send a POST request, so we check for that and process the form if thats the case. Next we need to add some logic to process our form data.
+
+Why did we change: response.render('home');
+to: response.render('home', { layout: 'main' });
+Didn't we set the default layout to main so it would use it without this addition?
+Still it is good to know we can toss in a new layout this way.
 
 Next, inside our if body lets grab everything from the form that we need.
 
@@ -425,6 +435,6 @@ exports.login = function (request, response) {
 
 Now if we click the "Log In" link, we see the login page and form. Type in your test username and password, hit the "Log In" button and you'll be logged in. Again, check terminal to make sure everything worked alright.
 
-In the next chapter we will start building all of the routes and views for logged in users. Right now we can log in and out which is awesome, but we really don't get do do much more than that. The good thing is that this is really the hardest part of setting up our site. From here on out we will be building some cool functionality and really starting to see things come together.
+In the next chapter we will start building all of the routes and views for logged in users. Right now we can log in and out which is awesome, but we really don't get to do much more than that. The good thing is that this is really the hardest part of setting up our site. From here on out we will be building some cool functionality and really starting to see things come together.
 
 
