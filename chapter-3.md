@@ -115,6 +115,12 @@ app.all('/login', routes.login);
 app.get('/logout', routes.logout);
 ```
 
+Since we added a models call here we need to add this to the top of app.js under the express3-handlebars include
+
+```javascript
+var models = require('./models');
+```
+
 We also created a middleware function that will be called during every request. The middleware function will add the current logged in users ID to the request object that is available in every route so we have access to it. 
 
 Now let's create the corresponding routes. In your routes.js file add the login and logout routes under the home route.
