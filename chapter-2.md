@@ -14,7 +14,7 @@ When a user comes to our site for the first time, we want to greet them with a w
 }
 ```
 
-Make sure to add a commas at the end of each dependecy EXCEPT for the last one or you will run into trouble. Now let's run npm install in our root directory so that it will install handlebars.
+Make sure to add a comma at the end of each dependecy EXCEPT for the last one or you will run into trouble. Now let's run npm install in our root directory so that it will install handlebars.
 
 ```bash
 $ npm install
@@ -34,7 +34,7 @@ var hbs = require('express3-handlebars');
 And we need to tell our app to set handlebars as our templating engine.
 
 ```javascript
-// Set handlebars as the default tempating engine
+// Set handlebars as the default templating engine
 // and use main.handlebars as our default layout.
 app.engine('handlebars', hbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
@@ -48,7 +48,7 @@ var app = express();
 var routes = require('./routes');
 var hbs = require('express3-handlebars');
 
-// Set handlebars as the default tempating engine
+// Set handlebars as the default templating engine
 // and use main.handlebars as our default layout.
 app.engine('handlebars', hbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
@@ -59,9 +59,9 @@ app.listen(3000);
 console.log('App running on port 3000');
 ```
 
-Now, since we are telling our app to use a layout file called main, we need to create it. Create a directory at the same level as app.js called views. This is where we will keep all of our handlebars templates and layouts. Within the views directory, create another directory called layouts.
+Now, since we are telling our app to use a layout file called main, we need to create it. Create a directory at the same level as app.js called views. This is where we will keep all of our handlebars templates and layouts. Within the views directory, create another directory called layouts. This directory structure is required for Handlebars to find our layout file. To find out more, visit [here](https://github.com/ericf/express3-handlebars#basic-usage).
 
-A layout is an html file that contains the structure of our site, it contains all of the content in our site that will persist from page to page, that way we don't have to write the same html files over and over. This is a really important concept to understand because it saves a lot of time down the road. If we want to change something with the layout of our site, we only have to change it in our layout file, instead of tediously updating every html file by hand and making mistakes along the way.
+A layout is an html file that contains the structure of our site.  It contains all of the content in our site that will persist from page to page so we don't have to write the same html files over and over. This is a really important concept to understand because it saves a lot of time down the road. If we want to change something with the layout of our site, we only have to change it in our layout file, instead of tediously updating every html file by hand and making mistakes along the way.
 
 So let's create a really basic layout. Inside the layout directory let's create a file called main.handlebars and fill it with some basic HTML content.
 
@@ -86,7 +86,7 @@ Now let's get to that template content. In our views directory let's create a fi
 <p>Glad you could make it!</p>
 ```
 
-Now in our home route, let's tell the app to serve up a template called 'home' when the user visits the root path of our site. We do this by calling response.render and passing in the name of our template which is 'home'.
+Now in our routes.js file in the home route, let's tell the app to serve up a template called 'home' when the user visits the root path of our site. We do this by calling response.render and passing in the name of our template which is 'home'. Go ahead and remove the response.send("Welcome"); line and replace it with response.render('home'); as shown below.
 
 ```javascript
 exports.home = function (request, response) {
@@ -98,7 +98,7 @@ Let's restart our app and see what our welcome page looks like now.
 
 <img src="http://cl.ly/image/3K023i3z0a3R/Screen%20Shot%202013-06-21%20at%2011.07.20%20AM.png">
 
-Not too exciting, but that's about to change. We're going to make our layout a bit nicer. 
+Not too exciting, but that's about to change. We're going to make our layout a bit nicer.
 
 For simplicity, we're going to use Twitter's <a href="http://getbootstrap.com/2.3.2/" target="_blank">Bootstrap</a> to develop the front end of our website. Bootstrap is a front-end framework that comes with some really nice features. It will help us create a nice clean site that looks good without much effort.
 
