@@ -6,5 +6,5 @@
 
   - <a href="https://github.com/thom801/book/blob/master/chapter-1.md">Chapter One: Getting Started</a>
   - <a href="https://github.com/thom801/book/blob/master/chapter-2.md">Chapter Two: Layouts and Templates</a>
-  - <a href="https://github.com/thom801/book/blob/master/chapter-3.md">Chapter Three: Chapter Three: User Models and Authentication</a>
-  - ... More coming soon.
+  - <a href="https://github.com/thom801/book/blob/master/chapter-3.md">Chapter Three: User Models and Authentication</a>
+  - <a href="https://github.com/thom801/book/blob/master/chapter-4.md">Chapter Four: Interacting with the Database</a>
