@@ -30,7 +30,7 @@ exports.User = db.model('User', UserSchema);
 exports.Post = db.model('Post', PostSchema);
 ```
 
-Now we have a post model so we're free to use them! So now that we have a model of posts, we want to be able to create them and see them as well. Let's first create a new feed.handlebars in the views (not layouts) directory.
+Now we have a post model so we're free to use them. So now that we have a model of posts, we want to be able to create them and see them as well. Let's first create a new feed.handlebars in the views (not views/layouts) directory.
 
 ```html
 <h1>Your Feed</h1>
@@ -84,12 +84,12 @@ var auth = [routes.checkAuth];
 This goes at the top of app.js. We're providing Node.js with an array of functions to run before running the function given. In this case, it's just one function that we're going to call from the routes.js file.
 
 ```javascript
-exports.checkAuth = function (request, response, callback) {
+exports.checkAuth = function (request, response, next) {
   if(!request.session.userID) {
     response.redirect('/');
   }
 
-  callback();
+  next();
 }
 ```
 Pretty simple. We're just checking for the session userID. If it's there, we continue by calling the callback. If not, we redirect to the homepage.
