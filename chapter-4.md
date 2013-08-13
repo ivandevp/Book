@@ -1,4 +1,4 @@
-# Chapter Four: Pulling Objects Out of the Database
+# Chapter Four: Interacting with the Database
 
 We've now successfully created a user and thus have committed a successful write to the database. However, this isn't going to do much if the object is later able to be retrieved and displayed. This chapter will address pulling objects out of the database and making them useable in your templates.
 
