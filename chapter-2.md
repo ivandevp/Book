@@ -14,7 +14,7 @@ When a user comes to our site for the first time, we want to greet them with a w
 }
 ```
 
-Make sure to add a comma at the end of each dependecy EXCEPT for the last one or you will run into trouble. Now let's run npm install in our root directory so that it will install handlebars.
+Make sure to add a comma at the end of each dependency EXCEPT for the last one or you will run into trouble. Now let's run npm install in our root directory so that it will install handlebars.
 
 ```bash
 $ npm install
@@ -156,7 +156,7 @@ This is a very basic bootstrap layout taken from the <a href="http://twitter.git
 <script src="/public/bootstrap/js/bootstrap.js" type="text/javascript"></script>
 ```
 
-Also, in the head of the file, we have included a the bootstrap CSS and our own layout.css which we will create next.
+Also, in the head of the file, we have included the bootstrap CSS and our own layout.css which we will create next.
 
 ```html
 <link href="/public/bootstrap/css/bootstrap.css" rel="stylesheet">
