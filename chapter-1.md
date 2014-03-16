@@ -89,7 +89,7 @@ This node_modules directory contains all of the node libraries that our app will
 
 ## Creating an Express Application
 
-Now that we have express installed as a dependency within our app, we are ready to start building our application. To do so, lets create another file called app.js at the root of our project. In this case the root of our project is `~/development/nulltonode/`.
+Now that we have express installed as a dependency within our app, we are ready to start building our application. To do so, let's create another file called app.js at the root of our project. In this case the root of our project is `~/development/nulltonode/`.
 
 Okay, Inside of app.js lets write a couple lines to import express and initialize an app so that we can use it to serve up some content.
 
@@ -127,7 +127,7 @@ To stop our node server; while in the command line where your app is running, hi
 
 ## Including Routes
 
-In app.js, we mapped a route `/hello` to call an anonymous function and that anonymous function served up some simple content. This works fine, but as our app grows, we probably aren't going to want all of our logic to be within our main app.js file. To seperate it up a bit and keep things a little more tidy, we're going to move our route functions to a new file called routes.js. So let's create a routes.js file in the same directory as app.js.
+In app.js, we mapped a route `/hello` to call an anonymous function and that anonymous function served up some simple content. This works fine, but as our app grows, we probably aren't going to want all of our logic to be within our main app.js file. To separate it up a bit and keep things a little more tidy, we're going to move our route functions to a new file called routes.js. So let's create a routes.js file in the same directory as app.js.
 
 Now in app.js, lets import our routes file so that we can use it. At the top of our file, below `var app = express();` add the following line
 
