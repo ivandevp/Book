@@ -169,7 +169,7 @@ If the form submission returns an error, the error will be shown above the form.
 {{/if}}
 ```
 
-When the form is submitted its going to post data to our home route. So lets go there and set things up to recieve this data. Our basic route is going to be structured like this.
+When the form is submitted it's going to post data to our home route. So let's go there and set things up to receive this data. Our basic route is going to be structured like this.
 
 ```javascript
 exports.home = function (request, response) {
@@ -183,7 +183,7 @@ exports.home = function (request, response) {
 }
 ```
 
-When a user visits the page it will send a GET request, but when they submit the form it will send a POST request, so we check for that and process the form if thats the case. Next we need to add some logic to process our form data.
+When a user visits the page it will send a GET request, but when they submit the form it will send a POST request, so we check for that and process the form if that's the case. Next we need to add some logic to process our form data.
 
 Why did we change: response.render('home');
 to: response.render('home', { layout: 'main' });
