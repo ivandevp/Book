@@ -33,7 +33,7 @@ If so, great! Let's move on. If you don't see that line, Mongodb is not installe
 
 ## Using NodeJS and NPM to install Express
 
-Next, we are going to install the Express web framwork using NPM. NPM stands for Node Package Manager. It is a standard way to install dependencies into a development project.
+Next, we are going to install the Express web framework using NPM. NPM stands for Node Package Manager. It is the standard way to install dependencies into a NodeJS development project.
 
 `$ npm install -g express`
 
@@ -97,7 +97,7 @@ Using your favorite text editor, within our app directory we're going to create 
 }
 ```
 
-This file defines our express app and will tell npm what packages we will need to install. For now, we just have express listed as a dependency. The "3.x" means that our app requires any version of express, for example: `4.1`, `4.3.2` or `4.8.4`. We'll cover this in greater detail later on.
+This file defines our express app and will tell npm what packages we will need to install. For now, we just have express listed as a dependency. The "4.x" means that our app requires any version of express, for example: `4.1`, `4.3.2` or `4.8.4`. We'll cover this in greater detail later on.
 
 Now back to the command line, let's install our dependencies using npm. Within the development directory run:
 
