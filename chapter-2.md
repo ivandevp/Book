@@ -194,6 +194,43 @@ Does your site look like this?
 
 <img src="http://cl.ly/image/1Y1L2P2y441t/Screen%20Shot%202013-07-29%20at%203.57.16%20PM.png">
 
-Now we've handled the basics of creating a layout and template. In the next chapter we're going to build upon this concept by adding some structure and navigation to our site.
+Basically, we created a page layout (main.handlebars), and then a view (home.handlebars), that we inject inside of main.handlebars where the handlebars synax (`{{{ body }}}`).
+
+## Creating the Sign Up Page
+
+Obviously we want to do more than just greet our users. Let's give them the ability to sign up to use our application. To do this we will build a basic HTML form. Change home.handlebars to this:
+
+```html
+<h1>Welcome</h1>
+<p>To get started, fill out the sign up form below.</p>
+<hr>
+<p class="lead">Sign Up</p>
+{{#if formError }}
+  <p class="alert alert-warning">{{{ formError }}}</p>
+{{/if}}
+<form action="" method="POST">
+  <input type="text" name="name" value="" placeholder="Name"><br/>
+  <input type="text" name="username" value="" placeholder="username"><br/>
+  <input type="password" name="password" value="" placeholder="password"><br/>
+  <p>Profile Image</p><input type="file" name="image"><hr>
+  <input class="btn btn-primary" type="submit" name="" value="Sign Up">
+</form>
+```
+
+In this form, we have an input for name, username, and password along with a file input for the user's profile image. Notice that the form method is set to `POST`, this will tell our form to post data to the action url when the form is submitted. In this case our action is blank which will post to the current location. Another thing to note is `enctype="multipart/form-data"` which will ensure that our image file will be posted to the server.
+
+If the form submission returns an error, the error will be shown above the form.
+
+```html
+{{#if formError }}
+  <p class="alert alert-warning">{{{ formError }}}</p>
+{{/if}}
+```
+
+### Checkpoint!
+
+After restarting node and refreshing your page, you should now see a basic signup form. Congrats, we have the first page of our application!
+
+Now we've handled the basics of creating a layout and template. In the next chapter we're going to build upon this by creating the functionality to actually save a user's sign up information.
 
 [Next Chapter >>](https://github.com/NullToNode/Book/blob/master/chapter-3.md)

@@ -1,48 +1,79 @@
 # Chapter Three: User Models and Authentication
 
+## Creating a MongoDB Database
+
 In this chapter, we are going to create the logic to sign users up and log them in and out. There are a million ways to do this properly, however, in this book we will be taking a simple and not very secure approach for simplicity. 
 
 We're going to be using mongoDB to store our users in the database and we will use the Mongoose ODM to create Schemas for our database. Schemas allow us to have pre-determined structure for the objects we store in our Mongo database. They can be very helpful.
 
-As a prerequisite, you should have MongoDB installed. Let's get mongo up and running and create a database. First, let's go to the command line and start the mongo server by typing the command
+As a prerequisite, you should have MongoDB installed. Let's get mongo up and running and create a database. First, let's go to the command line and start the mongo server by typing the command.
 
 ```
 $ mongod
-all output going to: /usr/local/var/log/mongodb/mongo.log
 ```
 
-Then to create the database open another command line window and type in mongo to enter the MongoDB shell. 
+This will print out information as MongoDB launches. You know it was successful if it prints:
+
+`waiting for connections on port 27017`
+
+This command must continue to run in order for your application to access MongoDB. So open another command line tab or window so we can run additional commands.
+
+Then to create the database we need to enter the MongoDB shell.  We do that with the following command:
 
 ```bash
 $ mongo
-MongoDB shell version: 2.4.3
+MongoDB shell version: 2.6.4
 connecting to: test
 > 
 ```
 
-From here we can create a database, lets call it "nulltonode".
+From here we can create a database, lets call it "nulltonode". (NOTE: Instead of the $ sign, you will notice this command has the > sign. This represents the MongoDB shell.)
 
 ```bash
 > use nulltonode
 switched to db nulltonode
 ```
 
-For user authentication we are going to use the [basic-auth-mongoose](https://github.com/thauburger/basic-auth-mongoose) library from github to log users in and out. We're also using mongoDB and the Mongoose ODM so let's add them all to our package.json file in the dependencies object.
+### Checkpoint!
+
+Type the following command into the MongoDB Shell:
+
+```
+> show dbs
+```
+
+If you have been successful up to this point, then a list of databases should print out. Make sure this list includes `nulltonode` (It might be the only one listed). This is the database where we will save all data for our application.
+
+## Installing Mongoose and Dependencies
+
+For user authentication we are going to use the [basic-auth-mongoose](https://github.com/thauburger/basic-auth-mongoose) library from github to log users in and out. We're also using mongoDB and the Mongoose ODM so let's add them all to our package.json file in the dependencies object. (Don't forget: in the dependencies object, a comma must be at the end of every line except the last one.)
 
 ```javascript
 ...
 
 "basic-auth-mongoose": "0.1.x",
-"mongoose": "3.6.x",
-"mongodb": "1.1.11",
-"underscore": "1.5.1"
+"mongoose": "4.3.x",
+"mongodb": "2.1.x",
+"body-parser": "1.14.x
+<!-- "underscore": "1.8.x" -->
+<!-- "cookie-parser": "1.4.x -->
 
 ...
 ```
 
-Also we're going to use [underscore](http://underscorejs.org/) for some things so we've added that to the dependencies as well.
+<!-- Also we're going to use [underscore](http://underscorejs.org/) for some things so we've added that to the dependencies as well. -->
 
-Now that we've changed our package.json file, we need to run `npm install`. Always remember to do this when package.json changes.
+Now that we've changed our package.json file, we need to run an install. Always remember to do this when package.json changes.
+
+```
+$ npm install
+```
+
+### Checkpoint!
+
+You should now be able to find directories for every package we told node to download (`basic-auth-mongoose` and all the others we just typed into `package.json`) inside of `node_modules`.
+
+## Creating Mongoose Models
 
 Ok, now that we have a Mongo database set up, we need to get some Mongoose Models created so that we can store data in structured objects. Create a file in the root of your project and name it models.js and let's add a couple imports at the top.
 
@@ -54,18 +85,20 @@ var db       = mongoose.connect('localhost', 'nulltonode');
 var Schema   = mongoose.Schema;
 ```
 
-Here we are importing mongoose and initializing a connection to our database. We're also importing `mongoose.schema` which we will use to create models of our data. Just after our import, let's add the following code.
+Here we are importing mongoose and initializing a connection to our database. We're also importing `mongoose.Schema` which we will use to create models of our data. Just after our import, let's add the following code.
 
 ```javascript
 ...
 
-var UserSchema = new Schema({
+var UserSchema = new Schema();
+
+UserSchema.add({
   name:      { type: String, required: true },
   username:  { type: String, required: true, lowercase: true, trim: true, index: { unique: true } },
   image:     { type: String },
   // following and followers are one to many relationships between users.
-  following: [ UserSchema ],
-  followers: [ UserSchema ],
+  following: [],
+  followers: [],
 });
 
 UserSchema.plugin(require('basic-auth-mongoose'));
@@ -74,7 +107,162 @@ exports.User = db.model('User', UserSchema);
 
 Above, we are defining `UserSchema` which is like a blueprint for creating users in the database. Every time we create a user we will use this blueprint and mongoose will know how we want our data structured. We also have enabled the basic auth plugin for our schema and exported it as `User` so we can use it from other files.
 
-Now, since we're going to be uploading files, we need to tell our app where to put the files when they are uploaded. In app.js add this under the app.get('/', routes.home); line:
+Now, let's build the functionality to handle when a user signs up.
+
+## Saving To The Database
+
+When the form is submitted it's going to post data to our home route. So let's go there and set things up to receive this data. Our basic route is going to be structured like this: (in routes.js)
+
+```javascript
+exports.home = function (request, response) {
+  // Only attempt to process form data if the request method is POST
+  if (request.method == 'POST') {
+    // process form data
+  }
+  else {
+    response.render('home', { layout: 'main' });
+  }
+}
+```
+
+When a user visits the page it will send a GET request, but when they submit the form it will send a POST request, so we check for that and process the form if that's the case. Next we need to add some logic to process our form data.
+
+Why did we change: response.render('home');
+to: response.render('home', { layout: 'main' });
+Didn't we set the default layout to main so it would use it without this addition? (in app.js)
+Yes, we did. Still it is good to know we can toss in a new layout this way if desired.
+
+Next, inside our `if` body lets grab everything from the form that we need.
+
+```javascript
+...
+
+if (request.method == 'POST') {
+  // Store the form data in some variables
+  var name        = request.body.name;
+  var username    = request.body.username;
+  var password    = request.body.password;
+<!--   var tmp_path    = request.files.image.path;
+
+  // Set the directory where we want to store the images. 
+  // Make sure to create this directory or it will throw an error.
+  var target_path = './public/uploads/' + request.files.image.name; -->
+}
+
+...
+```
+
+We are grabbing the name, username, and password from response.body where normal form data is stored. Notice that we are not grabbing the user's profile photo. We will build that functionality in later because it involves a few extra steps. First let's get the route working.
+
+Now that we have the user's information, let's save it to the database.
+
+```javascript
+...
+
+// Check that the username and password are acceptable.
+if (username.length >= 3 && password.length >= 6) {
+  // Create a new user using our user schema
+  var newUser = new models.User({
+    // Pass in the data from our form.
+    name: name,
+    username: username,
+    password: password
+    <!-- image: target_path -->
+  });
+
+  // Attempt to save the new user.
+  newUser.save(function (error, user) {
+    if (error) {
+      // If the save fails, it may be because the username is already taken so return an error.
+      response.render('home', { layout: 'main', formError: 'Sorry, that username is already taken.' });
+    }
+    else {
+<!--       // Store the user id in a session cookie so we know the user is logged in now.
+      request.session.userID = user._id; -->
+      // The user was successfully saved.
+      console.log('The user was successfully saved.');
+    }
+  });
+}
+else {
+  // If the username and password validation failed, return an error.
+  response.render('home', { layout: 'main', formError: 'Your username must contain at least 3 characters.<br/> Your password must contain at least 6 characters.' });
+}
+
+...
+```
+
+The commenting in this code can shed some light on what is happening exactly. Basically we make sure we have everything we need to create a user, then we create that user. Otherwise we return an error to the home page and ask the user to correct the form. Also, since we are using the User model in this code we need to import the file (models.js) where the model is located at the top of our routes.js file
+
+```javascript
+var models = require('./models');
+```
+
+One last thing. We have to tell express how to read the data that is arriving when our form POSTs. We do this with `body-parser`, which you may have noticed that we included in our last update to package.json. So, in app.js, first `require` body-parser at the top of the file, underneath all of our previous requirements.
+
+```
+var bodyParser = require('body-parser');
+
+```
+
+Then, tell our app to use `bodyParser`.
+
+```
+...
+app.engine('handlebars', hbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+app.use('/public', express.static('public'));
+
+app.use(bodyParser.urlencoded({ extended: true }))
+...
+
+```
+
+Basically, data passed from a form can be encoded in different ways. Ours is currently being urlencoded. You can see that we called the urlencoded function on bodyParser. bodyParser now knows how to parse the data and create the request.body object we are pulling the user's data from in our home route. Don't worry too much if this doesn't quite make sense yet.
+
+### Checkpoint!
+
+Ok, we came a long way in that section! We built a mongoose model to control the structure of the data we are saving to the database. Then we wrote code to handle the POST request when the user submits the sign up form, which saves the user to the database by using our mongoose model. And lastly, we told the app how to read the data being passed by the form so it can give the home function access to said data by using body-parser. Let's see if it all worked.
+
+First, make sure node is restarted in command line.
+
+```
+$ node app.js
+
+```
+
+Then, in the browser at <a href="http://localhost:3000">http://localhost:3000</a>, Fill out the sign up form, but DO NOT upload an image. Remember that in the home function we set parameters saying the username must be at least 3 characters long, and the password must be at least 6 long.
+
+When you press sign up, nothing should happen. However, if you go back to the command line where node is running your app.js file, it should now say: 
+
+`The user was successfully saved.`
+
+We just saved our first user to the database!
+
+If you want to, you can go to the command line window where you are running the MongoDB Shell (where you typed the mongo command) and type in:
+
+
+```
+> db.users.findOne()
+```
+
+This should print out the database object that we just saved. You may notice that instead of `password`, there is `pass_hash` and `salt`. This is a security feature provided by the `basic-auth-mongoose` plugin that we attached to our `UserSchema` in `models.js`. It is very bad to store passwords in plain text in a database. `basic-auth-mongoose` scrambles them so if someone hacked our database they still would not be able to easily read the passwords.
+
+## Saving the Uploaded File
+
+Ok, now that we are saving the username and password, we now need to make sure we save the uploaded profile photo. This is a bit complicated and requires us to change a few things we have already done, but we will get through it!
+
+
+<!-- 
+
+
+
+First we're grabbing the name, username, and password from response.body where normal form data is stored. We also grab `request.files.image.path` and store it which is where a path to a temporary file has been saved in our uploads directory. We also set the path on our server where we will store the image that the user uploads.
+
+At this point you need to make sure you have an uploads directory inside your public directory or you will run into problems because node can't create files in directories that do not exist.
+
+
+Now, since we're going to be uploading files (allowing the user to save a profile picture), we need to tell our app where to put the files when they are uploaded. We will use body-parser for this. First, we need to  In app.js add this above the app.get('/', routes.home); line:
 
 ```javascript
 ...
@@ -82,7 +270,7 @@ Now, since we're going to be uploading files, we need to tell our app where to p
 // Upload directory for our images
 app.use(express.bodyParser({uploadDir:'./public/uploads'}));
 // Cookie parser for our authentication library.
-app.use(express.cookieParser());
+app.use(cookieParser());
 app.use(express.cookieSession({ secret: 'secret123' }));
 
 ...
@@ -140,79 +328,9 @@ We don't have the templates that these routes are going to try to render so let'
 
 ## Sign Up Page
 
-Let's start off by getting our sign up page going. Here we want the user to be able to come to the home page and sign up for an account by filling out a form. Inside of home.handlebars let's create a form.
 
-```html
-<h1>Welcome</h1>
-<p>To get started, fill out the sign up form below.</p>
-<hr>
-<p class="lead">Sign Up</p>
-{{#if formError }}
-  <p class="alert alert-warning">{{{ formError }}}</p>
-{{/if}}
-<form action="" method="POST" enctype="multipart/form-data">
-  <input type="text" name="name" value="" placeholder="Name"><br/>
-  <input type="text" name="username" value="" placeholder="username"><br/>
-  <input type="password" name="password" value="" placeholder="password"><br/>
-  <p>Profile Image</p><input type="file" name="image"><hr>
-  <input class="btn btn-primary" type="submit" name="" value="Sign Up">
-</form>
-```
+----------------------------------
 
-In this form, we have an input for name, username, and password along with a file input for the user's profile image. Notice that the form method is set to `POST`, this will tell our form to post data to the action url when the form is submitted. In this case our action is blank which will post to the current location. Another thing to note is `enctype="multipart/form-data"` which will ensure that our image file will be posted to the server.
-
-If the form submission returns an error, the error will be shown above the form.
-
-```html
-{{#if formError }}
-  <p class="alert alert-warning">{{{ formError }}}</p>
-{{/if}}
-```
-
-When the form is submitted it's going to post data to our home route. So let's go there and set things up to receive this data. Our basic route is going to be structured like this.
-
-```javascript
-exports.home = function (request, response) {
-  // Only attempt to process form data if the request method is POST
-  if (request.method == 'POST') {
-    // process form data
-  }
-  else {
-    response.render('home', { layout: 'main' });
-  }
-}
-```
-
-When a user visits the page it will send a GET request, but when they submit the form it will send a POST request, so we check for that and process the form if that's the case. Next we need to add some logic to process our form data.
-
-Why did we change: response.render('home');
-to: response.render('home', { layout: 'main' });
-Didn't we set the default layout to main so it would use it without this addition?
-Still it is good to know we can toss in a new layout this way.
-
-Next, inside our if body lets grab everything from the form that we need.
-
-```javascript
-...
-
-if (request.method == 'POST') {
-  // Store the form data in some variables
-  var name        = request.body.name;
-  var username    = request.body.username;
-  var password    = request.body.password;
-  var tmp_path    = request.files.image.path;
-
-  // Set the directory where we want to store the images. 
-  // Make sure to create this directory or it will throw an error.
-  var target_path = './public/uploads/' + request.files.image.name;
-}
-
-...
-```
-
-First we're grabbing the name, username, and password from response.body where normal form data is stored. We also grab `request.files.image.path` and store it which is where a path to a temporary file has been saved in our uploads directory. We also set the path on our server where we will store the image that the user uploads.
-
-At this point you need to make sure you have an uploads directory inside your public directory or you will run into problems because node can't create files in directories that do not exist.
 
 In the same block, let's add the logic needed to save the user's image to the uploads directory. First add the import for 
 
@@ -248,49 +366,6 @@ Here we're using the file system package to save the file to the uploads directo
 var fs = require('fs');
 ```
 
-Next we want to handle the name, username, and password.
-
-```javascript
-...
-
-// Check that the username and password are acceptable.
-if (username.length >= 3 && password.length >= 6) {
-  // Create a new user using our user schema
-  var newUser = new models.User({
-    // Pass in the data from our form.
-    name: name,
-    username: username,
-    password: password,
-    image: target_path
-  });
-
-  // Attempt to save the new user.
-  newUser.save(function (error, user) {
-    if (error) {
-      // If the save fails, it may be because the username is already taken so return an error.
-      response.render('home', { layout: 'main', formError: 'Sorry, that username is already taken.' });
-    }
-    else {
-      // Store the user id in a session cookie so we know the user is logged in now.
-      request.session.userID = user._id;
-      // The user was successfully saved.
-      console.log('The user was successfully saved.');
-    }
-  });
-}
-else {
-  // If the username and password validation failed, return an error.
-  response.render('home', { layout: 'main', formError: 'Your username must contain at least 3 characters.<br/> Your password must contain at least 6 characters.' });
-}
-
-...
-```
-
-The commenting in this code can shed some light on what is happening exactly. Basically we make sure we have everything we need to create a user, then we create that user and sign them in. Otherwise we return an error to the home page and ask the user to correct the form. Also, since we are using the User model in this code we need to import models at the top of our routes.js file
-
-```javascript
-var models = require('./models');
-```
 
 So now putting everything together, our routes file should look like this.
 
@@ -437,5 +512,5 @@ Now if we click the "Log In" link, we see the login page and form. Type in your 
 
 In the next chapter we will start building all of the routes and views for logged in users. Right now we can log in and out which is awesome, but we really don't get to do much more than that. The good thing is that this is really the hardest part of setting up our site. From here on out we will be building some cool functionality and really starting to see things come together.
 
-[Next Chapter >>](https://github.com/NullToNode/Book/blob/master/chapter-4.md)
+[Next Chapter >>](https://github.com/NullToNode/Book/blob/master/chapter-4.md) -->
 
